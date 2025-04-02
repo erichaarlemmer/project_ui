@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DurationSlider extends StatefulWidget {
-  final Function(int) setDuration;
+  final Function(int, int) setDuration;
   final List<int> durationIntervals;
+  final List<int> priceIntervals;
 
   const DurationSlider({
     super.key,
     required this.setDuration,
     required this.durationIntervals,
+    required this.priceIntervals,
   });
 
   @override
@@ -31,6 +33,20 @@ class _DurationSliderState extends State<DurationSlider> {
     return duration.toInt();
   }
 
+    int _mapSliderToCents(double sliderValue) {
+    int index = sliderValue.floor();
+
+    if (index == widget.priceIntervals.length - 1) {
+      return widget.priceIntervals[index];
+    }
+    int m =
+        widget.priceIntervals[index + 1] - widget.priceIntervals[index];
+    double price =
+        (sliderValue - index) * m + widget.priceIntervals[index];
+
+    return price.toInt();
+  }
+
   String _formatIntMinutes(int minute) {
     int hours = (minute / 60).floor();
     int min = minute - hours * 60;
@@ -38,7 +54,7 @@ class _DurationSliderState extends State<DurationSlider> {
     if (hours == 0) {
       return "${min}min";
     } else {
-      return "${hours}h ${min}min";
+      return "${hours}h ${min}min"; // different from other
     }
   }
 
@@ -65,7 +81,10 @@ class _DurationSliderState extends State<DurationSlider> {
                     setState(() {
                       _sliderValue = value;
                     });
-                    widget.setDuration(_mapSliderToMinutes(_sliderValue));
+                    widget.setDuration(
+                      _mapSliderToMinutes(_sliderValue),
+                      _mapSliderToCents(_sliderValue),
+                    );
                   },
                   min: 0.0,
                   max: widget.durationIntervals.length.toDouble() - 1,
@@ -75,7 +94,12 @@ class _DurationSliderState extends State<DurationSlider> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:
                     widget.durationIntervals
-                        .map((min) => Text(_formatIntMinutes(min), style: TextStyle(color: Colors.black, fontSize: 20)))
+                        .map(
+                          (min) => Text(
+                            _formatIntMinutes(min),
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                        )
                         .toList(),
               ),
             ],

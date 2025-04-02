@@ -4,7 +4,8 @@ import 'package:project_ui/pages/duration_page.dart';
 import 'package:project_ui/pages/plate_page.dart';
 import 'package:project_ui/pages/help_page.dart';
 import 'dart:async';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:project_ui/pages/home_page.dart';
 
 class SkeletonPage extends StatefulWidget {
@@ -20,11 +21,35 @@ class _SkeletonPageState extends State<SkeletonPage> {
   late Timer _timer;
   late Widget _currentPage;
 
+  String _parkingName = "";
+  List<int> _durations = [];
+  List<int> _prices = [];
+
   String _plate = "";
+
+  Future<void> fetchTotemData() async {
+    final url = Uri.parse('http://127.0.0.1:8000/api/totem/1');
+
+    try {
+      final response = await http.get(url);
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      setState(() {
+        _parkingName = data["parking_name"]; // Triggers UI update
+        _durations = List<int>.from(data["durations"]);
+        _prices = List<int>.from(data["prices"]);
+      });
+    } catch (e) {
+      setState(() {
+        _parkingName = "Error loading name";
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    fetchTotemData();
+
     _currentPage = HomePage(onButtonPressed: setPage);
 
     _formattedDate = _getFormattedDate();
@@ -81,6 +106,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
           _currentPage = DurationPage(
             onNavButtonPressed: setPage,
             plate: _plate,
+            durations: _durations,
+            prices: _prices,
           );
           break;
         case "paye":
@@ -113,10 +140,12 @@ class _SkeletonPageState extends State<SkeletonPage> {
           ],
         ),
         actions: [
-          // "Parco Pipo" at the top right
           Padding(
             padding: const EdgeInsets.only(right: 50),
-            child: Text("Parco Pipo", style: TextStyle(fontSize: 30)),
+            child: Text(
+              _parkingName.isNotEmpty ? _parkingName : "Loading...",
+              style: TextStyle(fontSize: 30),
+            ),
           ),
         ],
         backgroundColor: Color(0xFFB0B0B0),

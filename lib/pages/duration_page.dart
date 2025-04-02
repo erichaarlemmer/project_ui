@@ -5,10 +5,15 @@ import 'package:project_ui/widgets/slider.dart';
 class DurationPage extends StatefulWidget {
   final Function(String) onNavButtonPressed;
   final String plate;
+  final List<int> prices;
+  final List<int> durations;
+
   const DurationPage({
     super.key,
     required this.onNavButtonPressed,
     required this.plate,
+    required this.prices,
+    required this.durations,
   });
 
   @override
@@ -17,10 +22,13 @@ class DurationPage extends StatefulWidget {
 
 class _DurationPageState extends State<DurationPage> {
   int _duration = 0;
+  int _price = 0;
 
-  void _setDuration(int minute) {
+  void _setDuration(int minute, int cents) {
+
     setState(() {
       _duration = minute;
+      _price = cents;
     });
   }
 
@@ -31,8 +39,14 @@ class _DurationPageState extends State<DurationPage> {
     if (hours == 0) {
       return "${min}min";
     } else {
-      return "${hours}h ${min}min";
+      return "${hours}h ${min.toString().padLeft(2, '0')}min";
     }
+  }
+
+  String _formatPrice(int cents) {
+    double price = cents / 100;
+    print(cents);
+    return price.toString();
   }
 
   @override
@@ -71,13 +85,17 @@ class _DurationPageState extends State<DurationPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 60),
-                child: Text("Duration Selected : ${_formatIntMinutes(_duration)}", style: TextStyle(color: Colors.black, fontSize: 42)),
+                child: Text(
+                  "Duration Selected : ${_formatIntMinutes(_duration)}    Price : ${_formatPrice(_price)}€",
+                  style: TextStyle(color: Colors.black, fontSize: 42),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 60),
                 child: DurationSlider(
-                  setDuration: (v) => _setDuration(v),
-                  durationIntervals: [0, 10, 60, 120],
+                  setDuration: (v, n) => _setDuration(v, n),
+                  durationIntervals: widget.durations,
+                  priceIntervals: widget.prices,
                 ),
               ),
 
