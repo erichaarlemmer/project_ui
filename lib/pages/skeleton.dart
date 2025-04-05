@@ -92,7 +92,11 @@ class _SkeletonPageState extends State<SkeletonPage> {
           _currentPage = HomePage(onButtonPressed: setPage);
           break;
         case "help":
-          _currentPage = HelpPage(onButtonPressed: setPage);
+          _currentPage = HelpPage(
+            onButtonPressed: setPage,
+            prices: _prices,
+            durations: _durations,
+          );
           break;
         case "plate":
           _currentPage = EnterPlatePage(

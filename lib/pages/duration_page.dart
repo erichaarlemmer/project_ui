@@ -25,7 +25,6 @@ class _DurationPageState extends State<DurationPage> {
   int _price = 0;
 
   void _setDuration(int minute, int cents) {
-
     setState(() {
       _duration = minute;
       _price = cents;
@@ -44,9 +43,12 @@ class _DurationPageState extends State<DurationPage> {
   }
 
   String _formatPrice(int cents) {
-    double price = cents / 100;
-    print(cents);
-    return price.toString();
+    if (cents > 0) {
+      double price = cents / 100;
+      return "${price.toStringAsFixed(2)}€";
+    } else {
+      return "Free";
+    }
   }
 
   @override
@@ -86,7 +88,7 @@ class _DurationPageState extends State<DurationPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 60),
                 child: Text(
-                  "Duration Selected : ${_formatIntMinutes(_duration)}    Price : ${_formatPrice(_price)}€",
+                  "Duration Selected : ${_formatIntMinutes(_duration)}    Price : ${_formatPrice(_price)}",
                   style: TextStyle(color: Colors.black, fontSize: 42),
                 ),
               ),
