@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_ui/pages/duration_page.dart';
+import 'package:project_ui/pages/login_page.dart';
 import 'package:project_ui/pages/plate_page.dart';
 import 'package:project_ui/pages/help_page.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:project_ui/pages/home_page.dart';
+import 'package:project_ui/utils/config.dart';
 
 class SkeletonPage extends StatefulWidget {
   const SkeletonPage({super.key});
@@ -28,7 +30,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   String _plate = "";
 
   Future<void> fetchTotemData() async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/totem/1');
+    final url = Uri.parse('http://127.0.0.1:8000/api/totem/$totemId');
 
     try {
       final response = await http.get(url);
@@ -116,6 +118,9 @@ class _SkeletonPageState extends State<SkeletonPage> {
           break;
         case "paye":
           _currentPage = Placeholder();
+          break;
+        case "login":
+          _currentPage = LoginPage(onNavButtonPressed: setPage);
           break;
         default:
           throw UnimplementedError();

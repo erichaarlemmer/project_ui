@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
         BigButton(
-          onButtonPressed: () => {onButtonPressed("none")},
+          onButtonPressed: () => {onButtonPressed("login")},
           isLeft: true,
           isBottom: false,
           isCircle: false,
