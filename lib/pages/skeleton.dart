@@ -30,7 +30,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   String _plate = "";
 
   Future<void> fetchTotemData() async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/totem/$totemId');
+    final url = Uri.parse('$serverAddress/api/totem/$totemId');
 
     try {
       final response = await http.get(url);

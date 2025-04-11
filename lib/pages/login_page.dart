@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget {
               ), // Adds space between the text and the QR code
               QrImage(
                 data:
-                    'http://127.0.0.1:8000/auth/login/$totemId', // Replace with the data you want to encode in the QR code
+                    '$serverAddress/auth/login/$totemId', // Replace with the data you want to encode in the QR code
                 size:
                     MediaQuery.of(context).size.height /
                     2, // Size of the QR code
