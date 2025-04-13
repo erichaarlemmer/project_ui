@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:project_ui/pages/home_page.dart';
 import 'package:project_ui/utils/config.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SkeletonPage extends StatefulWidget {
   const SkeletonPage({super.key});
@@ -26,11 +27,17 @@ class _SkeletonPageState extends State<SkeletonPage> {
   String _parkingName = "";
   List<int> _durations = [];
   List<int> _prices = [];
-
   String _plate = "";
 
-  Future<void> fetchTotemData() async {
-    final url = Uri.parse('$serverAddress/api/totem/$totemId');
+  final channel = WebSocketChannel.connect(Uri.parse(wsServerAddress));
+
+  void _sendClientId() {
+    final payload = jsonEncode({"client_id": totemId});
+    channel.sink.add(payload);
+  }
+
+  Future<void> _fetchTotemData() async {
+    final url = Uri.parse('$httpServerAddress/api/totem/$totemId');
 
     try {
       final response = await http.get(url);
@@ -43,6 +50,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
     } catch (e) {
       setState(() {
         _parkingName = "Error loading name";
+        _durations = [0, 1];
+        _prices = [0, 100];
       });
     }
   }
@@ -50,7 +59,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
   @override
   void initState() {
     super.initState();
-    fetchTotemData();
+    _fetchTotemData();
+    _sendClientId();
 
     _currentPage = HomePage(onButtonPressed: setPage);
 
@@ -120,7 +130,10 @@ class _SkeletonPageState extends State<SkeletonPage> {
           _currentPage = Placeholder();
           break;
         case "login":
-          _currentPage = LoginPage(onNavButtonPressed: setPage);
+          _currentPage = LoginPage(
+            onNavButtonPressed: setPage,
+            channel: channel,
+          );
           break;
         default:
           throw UnimplementedError();
