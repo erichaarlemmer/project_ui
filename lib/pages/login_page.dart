@@ -1,26 +1,20 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:project_ui/utils/config.dart';
 import 'package:project_ui/widgets/big_button.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-
 
 class LoginPage extends StatelessWidget {
   final Function(String) onNavButtonPressed;
-  final WebSocketChannel channel;
 
-  const LoginPage({super.key, required this.onNavButtonPressed, required this.channel});
+
+  const LoginPage({
+    super.key,
+    required this.onNavButtonPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    
-    channel.stream.listen((message) {
-      final decoded = jsonDecode(message);
-      print(decoded);
-    });
-
     return Stack(
       children: [
         BigButton(

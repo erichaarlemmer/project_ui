@@ -28,6 +28,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   List<int> _durations = [];
   List<int> _prices = [];
   String _plate = "";
+  String _username = "";
 
   final channel = WebSocketChannel.connect(Uri.parse(wsServerAddress));
 
@@ -62,7 +63,17 @@ class _SkeletonPageState extends State<SkeletonPage> {
     _fetchTotemData();
     _sendClientId();
 
-    _currentPage = HomePage(onButtonPressed: setPage);
+    _setListener();
+
+    _currentPage = HomePage(
+      onButtonPressed: setPage,
+      currentUsername: _username,
+      setUsername: (username) {
+        setState(() {
+          _username = username;
+        });
+      },
+    );
 
     _formattedDate = _getFormattedDate();
     _formattedTime = _getFormattedTime();
@@ -75,8 +86,19 @@ class _SkeletonPageState extends State<SkeletonPage> {
     });
   }
 
+  void _setListener() {
+    channel.stream.listen((data) {
+      final decoded = jsonDecode(data);
+      if (_currentPage is LoginPage) {
+        _username = decoded["username"];
+        setPage("home");
+      }
+    });
+  }
+
   @override
   void dispose() {
+    channel.sink.close();
     _timer
         .cancel(); // Make sure to cancel the timer when the widget is disposed
     super.dispose();
@@ -101,7 +123,15 @@ class _SkeletonPageState extends State<SkeletonPage> {
           _currentPage = Placeholder();
           break;
         case "home":
-          _currentPage = HomePage(onButtonPressed: setPage);
+          _currentPage = HomePage(
+            onButtonPressed: setPage,
+            currentUsername: _username,
+            setUsername: (username) {
+              setState(() {
+                _username = username;
+              });
+            },
+          );
           break;
         case "help":
           _currentPage = HelpPage(
@@ -130,10 +160,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
           _currentPage = Placeholder();
           break;
         case "login":
-          _currentPage = LoginPage(
-            onNavButtonPressed: setPage,
-            channel: channel,
-          );
+          _currentPage = LoginPage(onNavButtonPressed: setPage);
           break;
         default:
           throw UnimplementedError();
