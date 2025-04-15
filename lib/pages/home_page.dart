@@ -15,6 +15,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     Widget loginLogoutBtn;
 
     if (currentUsername.isEmpty) {
@@ -25,9 +27,9 @@ class HomePage extends StatelessWidget {
         isCircle: false,
         color: Colors.grey,
         children: [
-          Text("Login", style: TextStyle(color: Colors.white, fontSize: 56)),
+          Text("Login", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
           SizedBox(width: 8),
-          Icon(Icons.login, color: Colors.white, size: 56),
+          Icon(Icons.login, color: Colors.white, size: ((56/1080) * screenHeight)),
         ],
       );
     } else {
@@ -41,9 +43,9 @@ class HomePage extends StatelessWidget {
         isCircle: false,
         color: Colors.grey,
         children: [
-          Text("Logout", style: TextStyle(color: Colors.white, fontSize: 56)),
+          Text("Logout", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
           SizedBox(width: 8),
-          Icon(Icons.logout, color: Colors.white, size: 56),
+          Icon(Icons.logout, color: Colors.white, size: ((56/1080) * screenHeight)),
         ],
       );
     }
@@ -57,7 +59,7 @@ class HomePage extends StatelessWidget {
           isCircle: true,
           color: Colors.grey,
           children: [
-            Text("?", style: TextStyle(color: Colors.white, fontSize: 56)),
+            Text("?", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
           ],
         ),
         BigButton(
@@ -67,9 +69,9 @@ class HomePage extends StatelessWidget {
           isCircle: false,
           color: Colors.green,
           children: [
-            Text("Start", style: TextStyle(color: Colors.white, fontSize: 56)),
+            Text("Start", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
             SizedBox(width: 8),
-            Icon(Icons.arrow_forward, color: Colors.white, size: 56),
+            Icon(Icons.arrow_forward, color: Colors.white, size: ((56/1080) * screenHeight)),
           ],
         ),
         loginLogoutBtn,
@@ -77,7 +79,7 @@ class HomePage extends StatelessWidget {
         Center(
           child: Text(
             "Welcome $currentUsername",
-            style: TextStyle(color: Colors.black, fontSize: 91),
+            style: TextStyle(color: Colors.black, fontSize: ((91/1080) * screenHeight)),
           ),
         ),
       ],

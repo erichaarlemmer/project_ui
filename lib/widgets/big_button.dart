@@ -20,11 +20,13 @@ class BigButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Positioned(
-      bottom: isBottom ? 60 : null,
-      top: isBottom ? null : 30,
-      left: isLeft ? 60 : null,
-      right: isLeft ? null : 60,
+      bottom: isBottom ? ((60/1080) * screenHeight) : null,
+      top: isBottom ? null : ((30/1080) * screenHeight),
+      left: isLeft ? ((60/1920) * screenWidth) : null,
+      right: isLeft ? null : ((60/1920) * screenWidth),
       child: ElevatedButton(
         style:
             isCircle
@@ -32,14 +34,14 @@ class BigButton extends StatelessWidget {
                   backgroundColor: color,
                   shape: CircleBorder(),
                   padding: EdgeInsets.all(0),
-                  minimumSize: Size(75, 75),
+                  minimumSize: Size(((75/1920) * screenWidth),  ((75/1080) * screenHeight)),
                 )
                 : ElevatedButton.styleFrom(
                   backgroundColor: color,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(((100/1920) * screenWidth)),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  padding: EdgeInsets.symmetric(horizontal: ((20/1920) * screenWidth), vertical: 0),
                 ),
         onPressed: onButtonPressed,
         child: Row(mainAxisSize: MainAxisSize.min, children: children),

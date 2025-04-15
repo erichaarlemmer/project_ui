@@ -33,16 +33,14 @@ class _DurationSliderState extends State<DurationSlider> {
     return duration.toInt();
   }
 
-    int _mapSliderToCents(double sliderValue) {
+  int _mapSliderToCents(double sliderValue) {
     int index = sliderValue.floor();
 
     if (index == widget.priceIntervals.length - 1) {
       return widget.priceIntervals[index];
     }
-    int m =
-        widget.priceIntervals[index + 1] - widget.priceIntervals[index];
-    double price =
-        (sliderValue - index) * m + widget.priceIntervals[index];
+    int m = widget.priceIntervals[index + 1] - widget.priceIntervals[index];
+    double price = (sliderValue - index) * m + widget.priceIntervals[index];
 
     return price.toInt();
   }
@@ -60,6 +58,8 @@ class _DurationSliderState extends State<DurationSlider> {
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -70,7 +70,7 @@ class _DurationSliderState extends State<DurationSlider> {
             children: [
               SliderTheme(
                 data: SliderTheme.of(context).copyWith(
-                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 25.0),
+                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: ((25/1080) * screenHeight)),
                 ),
                 child: Slider(
                   activeColor: const Color.fromARGB(255, 0, 207, 62),
@@ -97,7 +97,7 @@ class _DurationSliderState extends State<DurationSlider> {
                         .map(
                           (min) => Text(
                             _formatIntMinutes(min),
-                            style: TextStyle(color: Colors.black, fontSize: 20),
+                            style: TextStyle(color: Colors.black, fontSize: ((20/1080) * screenHeight)),
                           ),
                         )
                         .toList(),

@@ -32,16 +32,18 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Stack(
       children: [
-        const Positioned(
-          top: 30,
+        Positioned(
+          top: ((30 / 1080) * screenHeight),
           left: 0,
           right: 0,
           child: Center(
             child: Text(
               "Please type your liscence plate",
-              style: TextStyle(color: Colors.black, fontSize: 56),
+              style: TextStyle(color: Colors.black, fontSize: ((56 / 1080) * screenHeight)),
             ),
           ),
         ),
@@ -52,9 +54,9 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(Icons.arrow_back, color: Colors.white, size: 56),
+            Icon(Icons.arrow_back, color: Colors.white, size: ((56 / 1080) * screenHeight)),
             SizedBox(width: 8),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: 56)),
+            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((56 / 1080) * screenHeight))),
           ],
         ),
         BigButton(
@@ -67,15 +69,15 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           isCircle: false,
           color: Colors.green,
           children: [
-            Text("Next", style: TextStyle(color: Colors.white, fontSize: 56)),
+            Text("Next", style: TextStyle(color: Colors.white, fontSize: ((56 / 1080) * screenHeight))),
             SizedBox(width: 8),
-            Icon(Icons.arrow_forward, color: Colors.white, size: 56),
+            Icon(Icons.arrow_forward, color: Colors.white, size: ((56 / 1080) * screenHeight)),
           ],
         ),
         Align(
           alignment: Alignment.topCenter,
           child: Padding(
-            padding: const EdgeInsets.only(top: 130),
+            padding: EdgeInsets.only(top: ((130 / 1080) * screenHeight)),
             child: PlateField(
               plateText: _currentPlate,
               onDelete: () => onKeyPress("del"),
@@ -83,7 +85,7 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 100),
+          padding: EdgeInsets.only(top: ((100 / 1080) * screenHeight)),
           child: Keyboard(onKeyPress: onKeyPress),
         ),
       ],

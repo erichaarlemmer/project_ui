@@ -12,22 +12,29 @@ class KeyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 100,
-      height: 100,
+      width: ((100 / 1080) * screenHeight),
+      height: ((100 / 1080) * screenHeight),
       child: ElevatedButton(
         onPressed: () => {onPressed(keyLetter)},
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.grey.shade300,
+          minimumSize: Size.zero,
+          padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-            side: BorderSide(color: Colors.black, width: 5),
+            borderRadius: BorderRadius.circular(((5 / 1080) * screenHeight)),
+            side: BorderSide(
+              color: Colors.black,
+              width: ((5 / 1080) * screenHeight),
+            ),
           ),
         ),
         child: Text(
           keyLetter,
           style: TextStyle(
-            fontSize: 50,
+            fontSize: ((50 / 1080) * screenHeight),
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -44,6 +51,8 @@ class Keyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     List<List<String>> azertyFormat = [
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
       ['A', 'Z', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -56,13 +65,17 @@ class Keyboard extends StatelessWidget {
       children:
           azertyFormat.map((row) {
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              padding: EdgeInsets.symmetric(
+                vertical: ((5 / 1080) * screenHeight),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:
                     row.map((letter) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: ((5 / 1080) * screenHeight),
+                        ),
                         child: KeyButton(
                           keyLetter: letter,
                           onPressed: onKeyPress,

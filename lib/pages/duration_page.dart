@@ -53,6 +53,8 @@ class _DurationPageState extends State<DurationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Stack(
       children: [
         BigButton(
@@ -62,9 +64,9 @@ class _DurationPageState extends State<DurationPage> {
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(Icons.arrow_back, color: Colors.white, size: 56),
+            Icon(Icons.arrow_back, color: Colors.white, size: ((56/1080) * screenHeight)),
             SizedBox(width: 8),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: 56)),
+            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
           ],
         ),
         BigButton(
@@ -74,9 +76,9 @@ class _DurationPageState extends State<DurationPage> {
           isCircle: false,
           color: Colors.green,
           children: [
-            Text("Next", style: TextStyle(color: Colors.white, fontSize: 56)),
+            Text("Next", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
             SizedBox(width: 8),
-            Icon(Icons.arrow_forward, color: Colors.white, size: 56),
+            Icon(Icons.arrow_forward, color: Colors.white, size: ((56/1080) * screenHeight)),
           ],
         ),
 
@@ -86,14 +88,14 @@ class _DurationPageState extends State<DurationPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 60),
+                padding: EdgeInsets.only(top: ((60/1080) * screenHeight)),
                 child: Text(
                   "Duration Selected : ${_formatIntMinutes(_duration)}    Price : ${_formatPrice(_price)}",
-                  style: TextStyle(color: Colors.black, fontSize: 42),
+                  style: TextStyle(color: Colors.black, fontSize: ((42/1080) * screenHeight)),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 60),
+                padding: EdgeInsets.only(top: ((60/1080) * screenHeight)),
                 child: DurationSlider(
                   setDuration: (v, n) => _setDuration(v, n),
                   durationIntervals: widget.durations,
@@ -102,10 +104,10 @@ class _DurationPageState extends State<DurationPage> {
               ),
 
               Padding(
-                padding: const EdgeInsets.only(top: 60),
+                padding: EdgeInsets.only(top: ((60/1080) * screenHeight)),
                 child: Container(
-                  width: 660,
-                  height: 330,
+                  width: ((660/1920) * screenWidth),
+                  height: ((330/1080) * screenHeight),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.black, width: 5),
@@ -117,7 +119,7 @@ class _DurationPageState extends State<DurationPage> {
                       "Current Status : ${widget.plate}",
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 42,
+                        fontSize: ((42/1080) * screenHeight),
                         fontWeight: FontWeight.bold,
                       ),
                     ),

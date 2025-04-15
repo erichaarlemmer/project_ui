@@ -31,6 +31,8 @@ class HelpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     // List to hold the formatted price and duration information
     List<String> priceDurationInfo = [];
 
@@ -56,10 +58,10 @@ class HelpPage extends StatelessWidget {
           isBottom: true,
           isCircle: false,
           color: Colors.red,
-          children: const [
-            Icon(Icons.arrow_back, color: Colors.white, size: 56),
-            SizedBox(width: 8),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: 56)),
+          children: [
+            Icon(Icons.arrow_back, color: Colors.white, size: ((56/1080) * screenHeight)),
+            SizedBox(width: ((8/1920) * screenWidth)),
+            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
           ],
         ),
         Center(
@@ -68,13 +70,13 @@ class HelpPage extends StatelessWidget {
             children: [
               Text(
                 'Price information',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: ((50/1080) * screenHeight), fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: ((20/1080) * screenHeight)),
               Container(
-                padding: EdgeInsets.all(20),
-                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.all(((20/1080) * screenHeight)),
+                margin: EdgeInsets.all(((20/1080) * screenHeight)),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.black, width: 5),
@@ -88,7 +90,7 @@ class HelpPage extends StatelessWidget {
                       priceDurationInfo.map((info) {
                         return Text(
                           info,
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(fontSize: ((24/1080) * screenHeight)),
                           textAlign:
                               TextAlign.left, // Align text itself to left
                         );

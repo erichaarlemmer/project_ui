@@ -170,34 +170,40 @@ class _SkeletonPageState extends State<SkeletonPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(((60/1080) * screenHeight)),
+        child: AppBar(
+          
+          title: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: ((50/1920) * screenWidth),
+                ), // Padding for date and time
+                child: Text(_formattedDate, style: TextStyle(fontSize: ((30/1080) * screenHeight))),
+              ),
+              Expanded(
+                child: Center(
+                  // This will center the time horizontally
+                  child: Text(_formattedTime, style: TextStyle(fontSize: ((30/1080) * screenHeight))),
+                ),
+              ),
+            ],
+          ),
+          actions: [
             Padding(
-              padding: const EdgeInsets.only(
-                left: 50,
-              ), // Padding for date and time
-              child: Text(_formattedDate, style: TextStyle(fontSize: 30)),
-            ),
-            Expanded(
-              child: Center(
-                // This will center the time horizontally
-                child: Text(_formattedTime, style: TextStyle(fontSize: 30)),
+              padding: EdgeInsets.only(right: ((50/1920) * screenWidth)),
+              child: Text(
+                _parkingName.isNotEmpty ? _parkingName : "Loading...",
+                style: TextStyle(fontSize: ((30/1080) * screenHeight)),
               ),
             ),
           ],
+          backgroundColor: Color(0xFFB0B0B0),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 50),
-            child: Text(
-              _parkingName.isNotEmpty ? _parkingName : "Loading...",
-              style: TextStyle(fontSize: 30),
-            ),
-          ),
-        ],
-        backgroundColor: Color(0xFFB0B0B0),
       ),
       body: Stack(
         children: [

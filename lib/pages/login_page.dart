@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:project_ui/utils/config.dart';
 import 'package:project_ui/widgets/big_button.dart';
@@ -7,14 +6,12 @@ import 'package:qr_flutter/qr_flutter.dart';
 class LoginPage extends StatelessWidget {
   final Function(String) onNavButtonPressed;
 
-
-  const LoginPage({
-    super.key,
-    required this.onNavButtonPressed,
-  });
+  const LoginPage({super.key, required this.onNavButtonPressed});
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Stack(
       children: [
         BigButton(
@@ -23,10 +20,10 @@ class LoginPage extends StatelessWidget {
           isBottom: true,
           isCircle: false,
           color: Colors.red,
-          children: const [
-            Icon(Icons.arrow_back, color: Colors.white, size: 56),
-            SizedBox(width: 8),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: 56)),
+          children: [
+            Icon(Icons.arrow_back, color: Colors.white, size: ((56/1080) * screenHeight)),
+            const SizedBox(width: 8),
+            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
           ],
         ),
         Center(
@@ -35,12 +32,12 @@ class LoginPage extends StatelessWidget {
             children: [
               Text(
                 'Please scan the QR code to log in:',
-                style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: ((42/1080) * screenHeight), fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
 
               SizedBox(
-                height: 20,
+                height: ((20/1080) * screenHeight),
               ), // Adds space between the text and the QR code
               QrImage(
                 data:
