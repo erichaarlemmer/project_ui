@@ -45,6 +45,23 @@ class _DurationSliderState extends State<DurationSlider> {
     return price.toInt();
   }
 
+  int findIntervalIndex(List<int> intervals, int value) {
+  for (int i = 0; i < intervals.length - 1; i++) {
+    if (value >= intervals[i] && value < intervals[i + 1]) {
+      return i;
+    }
+  }
+  return -1; // value is out of bounds (before first or after last interval)
+}
+
+  int _mapMinutesToCents(int duration) {
+    int n = findIntervalIndex(widget.durationIntervals, duration);
+    double m = (widget.priceIntervals[n + 1] - widget.priceIntervals[n]) / (widget.durationIntervals[n + 1] - widget.durationIntervals[n]);
+    double p = widget.priceIntervals[n].toDouble();
+
+    return (m*duration + p).toInt();
+  }
+
   String _formatIntMinutes(int minute) {
     int hours = (minute / 60).floor();
     int min = minute - hours * 60;
@@ -70,7 +87,9 @@ class _DurationSliderState extends State<DurationSlider> {
             children: [
               SliderTheme(
                 data: SliderTheme.of(context).copyWith(
-                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: ((25/1080) * screenHeight)),
+                  thumbShape: RoundSliderThumbShape(
+                    enabledThumbRadius: ((25 / 1080) * screenHeight),
+                  ),
                 ),
                 child: Slider(
                   activeColor: const Color.fromARGB(255, 0, 207, 62),
@@ -83,7 +102,7 @@ class _DurationSliderState extends State<DurationSlider> {
                     });
                     widget.setDuration(
                       _mapSliderToMinutes(_sliderValue),
-                      _mapSliderToCents(_sliderValue),
+                      _mapMinutesToCents(_mapSliderToMinutes(_sliderValue)),
                     );
                   },
                   min: 0.0,
@@ -97,7 +116,10 @@ class _DurationSliderState extends State<DurationSlider> {
                         .map(
                           (min) => Text(
                             _formatIntMinutes(min),
-                            style: TextStyle(color: Colors.black, fontSize: ((20/1080) * screenHeight)),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: ((20 / 1080) * screenHeight),
+                            ),
                           ),
                         )
                         .toList(),

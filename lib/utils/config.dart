@@ -1,4 +1,4 @@
-const String ipAddr = "192.168.1.65";
+const String ipAddr = "172.22.177.6";
 // const String ipAddr = "localhost";
 const String port = "8000";
 
