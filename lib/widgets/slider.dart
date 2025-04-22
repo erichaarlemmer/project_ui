@@ -33,21 +33,24 @@ class _DurationSliderState extends State<DurationSlider> {
     return duration.toInt();
   }
 
-  int _mapSliderToCents(double sliderValue) {
-    int index = sliderValue.floor();
+  // int _mapSliderToCents(double sliderValue) {
+  //   int index = sliderValue.floor();
 
-    if (index == widget.priceIntervals.length - 1) {
-      return widget.priceIntervals[index];
-    }
-    int m = widget.priceIntervals[index + 1] - widget.priceIntervals[index];
-    double price = (sliderValue - index) * m + widget.priceIntervals[index];
+  //   if (index == widget.priceIntervals.length - 1) {
+  //     return widget.priceIntervals[index];
+  //   }
+  //   int m = widget.priceIntervals[index + 1] - widget.priceIntervals[index];
+  //   double price = (sliderValue - index) * m + widget.priceIntervals[index];
 
-    return price.toInt();
-  }
+  //   return price.toInt();
+  // }
 
   int findIntervalIndex(List<int> intervals, int value) {
   for (int i = 0; i < intervals.length - 1; i++) {
-    if (value >= intervals[i] && value < intervals[i + 1]) {
+    if(value == intervals[intervals.length - 1]){
+      return intervals.length - 1;
+    }
+    else if (value >= intervals[i] && value < intervals[i + 1]) {
       return i;
     }
   }
@@ -56,6 +59,10 @@ class _DurationSliderState extends State<DurationSlider> {
 
   int _mapMinutesToCents(int duration) {
     int n = findIntervalIndex(widget.durationIntervals, duration);
+    if (n == widget.priceIntervals.length-1)
+    {
+      return widget.priceIntervals[n];
+    }
     double m = (widget.priceIntervals[n + 1] - widget.priceIntervals[n]) / (widget.durationIntervals[n + 1] - widget.durationIntervals[n]);
     double p = widget.priceIntervals[n].toDouble();
 
@@ -101,8 +108,8 @@ class _DurationSliderState extends State<DurationSlider> {
                       _sliderValue = value;
                     });
                     widget.setDuration(
-                      _mapSliderToMinutes(_sliderValue),
-                      _mapMinutesToCents(_mapSliderToMinutes(_sliderValue)),
+                      _mapSliderToMinutes(value),
+                      _mapMinutesToCents(_mapSliderToMinutes(value)),
                     );
                   },
                   min: 0.0,
