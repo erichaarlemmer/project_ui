@@ -46,27 +46,41 @@ class _DurationSliderState extends State<DurationSlider> {
   // }
 
   int findIntervalIndex(List<int> intervals, int value) {
-  for (int i = 0; i < intervals.length - 1; i++) {
-    if(value == intervals[intervals.length - 1]){
-      return intervals.length - 1;
+    for (int i = 0; i < intervals.length - 1; i++) {
+      if (value == intervals[intervals.length - 1]) {
+        return intervals.length - 1;
+      } else if (value >= intervals[i] && value < intervals[i + 1]) {
+        return i;
+      }
     }
-    else if (value >= intervals[i] && value < intervals[i + 1]) {
-      return i;
-    }
+    return -1; // value is out of bounds (before first or after last interval)
   }
-  return -1; // value is out of bounds (before first or after last interval)
-}
 
   int _mapMinutesToCents(int duration) {
-    int n = findIntervalIndex(widget.durationIntervals, duration);
-    if (n == widget.priceIntervals.length-1)
-    {
-      return widget.priceIntervals[n];
-    }
-    double m = (widget.priceIntervals[n + 1] - widget.priceIntervals[n]) / (widget.durationIntervals[n + 1] - widget.durationIntervals[n]);
-    double p = widget.priceIntervals[n].toDouble();
+    int index = findIntervalIndex(widget.durationIntervals, duration);
 
-    return (m*duration + p).toInt();
+    bool isLastInterval = index == widget.priceIntervals.length - 1;
+    if (isLastInterval) {
+      return widget.priceIntervals[index];
+    }
+
+    int currentPrice = widget.priceIntervals[index];
+    int nextPrice = widget.priceIntervals[index + 1];
+    double priceDiff = (nextPrice - currentPrice).toDouble();
+
+    if (priceDiff == 0) {
+      return currentPrice;
+    }
+
+    int currentDuration = widget.durationIntervals[index];
+    int nextDuration = widget.durationIntervals[index + 1];
+    double durationDiff = (nextDuration - currentDuration).toDouble();
+
+    double slope = priceDiff / durationDiff;
+    double base = currentPrice.toDouble();
+    double offset = duration - currentDuration.toDouble();
+
+    return (slope * offset + base).ceil();
   }
 
   String _formatIntMinutes(int minute) {

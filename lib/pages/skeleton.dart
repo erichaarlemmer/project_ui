@@ -5,7 +5,6 @@ import 'package:project_ui/pages/login_page.dart';
 import 'package:project_ui/pages/plate_page.dart';
 import 'package:project_ui/pages/help_page.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:project_ui/pages/home_page.dart';
 import 'package:project_ui/utils/config.dart';
@@ -33,34 +32,30 @@ class _SkeletonPageState extends State<SkeletonPage> {
   final channel = WebSocketChannel.connect(Uri.parse(wsServerAddress));
 
   void _sendClientId() {
-    final payload = jsonEncode({"client_id": totemId});
+    final payload = jsonEncode({"type": "set_client_id", "client_id": totemId});
     channel.sink.add(payload);
   }
 
-  Future<void> _fetchTotemData() async {
-    final url = Uri.parse('$httpServerAddress/api/totem/$totemId');
+  void _getTotemInfos() {
+    final payload = jsonEncode({
+      "type": "get_totem_infos",
+      "totem_id": totemId,
+    });
+    channel.sink.add(payload);
+  }
 
-    try {
-      final response = await http.get(url);
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      setState(() {
-        _parkingName = data["parking_name"]; // Triggers UI update
-        _durations = List<int>.from(data["durations"]);
-        _prices = List<int>.from(data["prices"]);
-      });
-    } catch (e) {
-      setState(() {
-        _parkingName = "Error loading name";
-        _durations = [0, 1];
-        _prices = [0, 100];
-      });
-    }
+  void _setTotemInfos(Map<String, dynamic> data) {
+    setState(() {
+      _parkingName = data["parking_name"];
+      _durations = List<int>.from(data["durations"]);
+      _prices = List<int>.from(data["prices"]);
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    _fetchTotemData();
+    _getTotemInfos();
     _sendClientId();
 
     _setListener();
@@ -89,9 +84,13 @@ class _SkeletonPageState extends State<SkeletonPage> {
   void _setListener() {
     channel.stream.listen((data) {
       final decoded = jsonDecode(data);
-      if (_currentPage is LoginPage) {
-        _username = decoded["username"];
-        setPage("home");
+      if (decoded["type"] == "login") {
+        if (_currentPage is LoginPage) {
+          _username = decoded["username"];
+          setPage("home");
+        }
+      } else if (decoded["type"] == "totem_data") {
+        _setTotemInfos(decoded);
       }
     });
   }
@@ -99,8 +98,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   @override
   void dispose() {
     channel.sink.close();
-    _timer
-        .cancel(); // Make sure to cancel the timer when the widget is disposed
+    _timer.cancel();
     super.dispose();
   }
 
@@ -174,31 +172,36 @@ class _SkeletonPageState extends State<SkeletonPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(((60/1080) * screenHeight)),
+        preferredSize: Size.fromHeight(((60 / 1080) * screenHeight)),
         child: AppBar(
-          
           title: Row(
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                  left: ((50/1920) * screenWidth),
+                  left: ((50 / 1920) * screenWidth),
                 ), // Padding for date and time
-                child: Text(_formattedDate, style: TextStyle(fontSize: ((30/1080) * screenHeight))),
+                child: Text(
+                  _formattedDate,
+                  style: TextStyle(fontSize: ((30 / 1080) * screenHeight)),
+                ),
               ),
               Expanded(
                 child: Center(
                   // This will center the time horizontally
-                  child: Text(_formattedTime, style: TextStyle(fontSize: ((30/1080) * screenHeight))),
+                  child: Text(
+                    _formattedTime,
+                    style: TextStyle(fontSize: ((30 / 1080) * screenHeight)),
+                  ),
                 ),
               ),
             ],
           ),
           actions: [
             Padding(
-              padding: EdgeInsets.only(right: ((50/1920) * screenWidth)),
+              padding: EdgeInsets.only(right: ((50 / 1920) * screenWidth)),
               child: Text(
                 _parkingName.isNotEmpty ? _parkingName : "Loading...",
-                style: TextStyle(fontSize: ((30/1080) * screenHeight)),
+                style: TextStyle(fontSize: ((30 / 1080) * screenHeight)),
               ),
             ),
           ],
