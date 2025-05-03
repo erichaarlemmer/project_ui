@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_ui/pages/duration_page.dart';
 import 'package:project_ui/pages/login_page.dart';
+import 'package:project_ui/pages/plate_logged_page.dart';
 import 'package:project_ui/pages/plate_page.dart';
 import 'package:project_ui/pages/help_page.dart';
 import 'dart:async';
@@ -28,6 +29,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   List<int> _prices = [];
   String _plate = "";
   String _username = "";
+  List<String> _userPlates = [];
 
   final channel = WebSocketChannel.connect(Uri.parse(wsServerAddress));
 
@@ -40,6 +42,14 @@ class _SkeletonPageState extends State<SkeletonPage> {
     final payload = jsonEncode({
       "type": "get_totem_infos",
       "totem_id": totemId,
+    });
+    channel.sink.add(payload);
+  }
+
+  void _getUserCars(username) {
+    final payload = jsonEncode({
+      "type": "get_user_cars",
+      "username": username,
     });
     channel.sink.add(payload);
   }
@@ -57,7 +67,6 @@ class _SkeletonPageState extends State<SkeletonPage> {
     super.initState();
     _getTotemInfos();
     _sendClientId();
-
     _setListener();
 
     _currentPage = HomePage(
@@ -84,13 +93,19 @@ class _SkeletonPageState extends State<SkeletonPage> {
   void _setListener() {
     channel.stream.listen((data) {
       final decoded = jsonDecode(data);
+      print("decoded recv data : $decoded");
       if (decoded["type"] == "login") {
         if (_currentPage is LoginPage) {
           _username = decoded["username"];
           setPage("home");
+          _getUserCars(_username);
         }
       } else if (decoded["type"] == "totem_data") {
         _setTotemInfos(decoded);
+      } else if (decoded["type"] == "user_cars") {
+        setState(() {
+          _userPlates = decoded["plates"];
+        });
       }
     });
   }
@@ -127,6 +142,9 @@ class _SkeletonPageState extends State<SkeletonPage> {
             setUsername: (username) {
               setState(() {
                 _username = username;
+                if (username == "") {
+                  _userPlates = [];
+                }
               });
             },
           );
@@ -139,12 +157,26 @@ class _SkeletonPageState extends State<SkeletonPage> {
           );
           break;
         case "plate":
-          _currentPage = EnterPlatePage(
-            onNavButtonPressed: setPage,
-            setPlate: (p) {
-              _plate = p;
-            },
-          );
+          if (_userPlates.isEmpty) {
+            _currentPage = EnterPlatePage(
+              onNavButtonPressed: setPage,
+              setPlate: (p) {
+                setState(() {
+                  _plate = p;
+                });
+              },
+            );
+          } else {
+            _currentPage = SelectionPage(
+              options: _userPlates,
+              onNavButtonPressed: setPage,
+              setPlate: (p) {
+                setState(() {
+                  _plate = p;
+                });
+              },
+            );
+          }
           break;
         case "duration":
           _currentPage = DurationPage(
