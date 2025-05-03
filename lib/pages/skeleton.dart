@@ -47,10 +47,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   }
 
   void _getUserCars(username) {
-    final payload = jsonEncode({
-      "type": "get_user_cars",
-      "username": username,
-    });
+    final payload = jsonEncode({"type": "get_user_cars", "username": username});
     channel.sink.add(payload);
   }
 
@@ -96,7 +93,9 @@ class _SkeletonPageState extends State<SkeletonPage> {
       print("decoded recv data : $decoded");
       if (decoded["type"] == "login") {
         if (_currentPage is LoginPage) {
-          _username = decoded["username"];
+          setState(() {
+            _username = decoded["username"];
+          });
           setPage("home");
           _getUserCars(_username);
         }
@@ -104,8 +103,15 @@ class _SkeletonPageState extends State<SkeletonPage> {
         _setTotemInfos(decoded);
       } else if (decoded["type"] == "user_cars") {
         setState(() {
-          _userPlates = decoded["plates"];
+          for (String s in decoded["plates"]) {
+            _userPlates.add(s);
+          }
         });
+
+        // setState(() {
+
+        //   _userPlates = decoded["plates"];
+        // });
       }
     });
   }
