@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_ui/widgets/big_button.dart';
+import 'package:project_ui/widgets/wireless_payment.dart';
 
 class HomePage extends StatelessWidget {
   final Function(String) onButtonPressed;
@@ -27,9 +28,19 @@ class HomePage extends StatelessWidget {
         isCircle: false,
         color: Colors.grey,
         children: [
-          Text("Login", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
+          Text(
+            "Login",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: ((56 / 1080) * screenHeight),
+            ),
+          ),
           SizedBox(width: 8),
-          Icon(Icons.login, color: Colors.white, size: ((56/1080) * screenHeight)),
+          Icon(
+            Icons.login,
+            color: Colors.white,
+            size: ((56 / 1080) * screenHeight),
+          ),
         ],
       );
     } else {
@@ -43,9 +54,19 @@ class HomePage extends StatelessWidget {
         isCircle: false,
         color: Colors.grey,
         children: [
-          Text("Logout", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
+          Text(
+            "Logout",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: ((56 / 1080) * screenHeight),
+            ),
+          ),
           SizedBox(width: 8),
-          Icon(Icons.logout, color: Colors.white, size: ((56/1080) * screenHeight)),
+          Icon(
+            Icons.logout,
+            color: Colors.white,
+            size: ((56 / 1080) * screenHeight),
+          ),
         ],
       );
     }
@@ -59,27 +80,48 @@ class HomePage extends StatelessWidget {
           isCircle: true,
           color: Colors.grey,
           children: [
-            Text("?", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
+            Text(
+              "?",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ((56 / 1080) * screenHeight),
+              ),
+            ),
           ],
         ),
-        BigButton(
-          onButtonPressed: () => {onButtonPressed("plate")},
-          isLeft: false,
-          isBottom: true,
-          isCircle: false,
+        WirelessPayment(
           color: Colors.green,
           children: [
-            Text("Start", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
-            SizedBox(width: 8),
-            Icon(Icons.arrow_forward, color: Colors.white, size: ((56/1080) * screenHeight)),
+            Text(
+              "Start",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ((56 / 1080) * screenHeight),
+              ),
+            ),
+            SizedBox(width: 20),
+            Icon(
+              Icons.payment_outlined,
+              color: Colors.white,
+              size: ((100 / 1080) * screenHeight),
+            ),
+            Icon(
+              Icons.contactless_outlined,
+              color: Colors.white,
+              size: ((100 / 1080) * screenHeight),
+            ),
           ],
         ),
+
         loginLogoutBtn,
 
         Center(
           child: Text(
             "Welcome $currentUsername",
-            style: TextStyle(color: Colors.black, fontSize: ((91/1080) * screenHeight)),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: ((91 / 1080) * screenHeight),
+            ),
           ),
         ),
       ],
