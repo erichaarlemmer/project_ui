@@ -84,7 +84,10 @@ class _DurationPageState extends State<DurationPage> {
           ],
         ),
         BigButton(
-          onButtonPressed: () {widget.setDurationPrice(_duration, _price); widget.onNavButtonPressed("paye");},
+          onButtonPressed: () {
+            widget.setDurationPrice(_duration, _price);
+            widget.onNavButtonPressed("paye");
+          },
           isLeft: false,
           isBottom: true,
           isCircle: false,
@@ -162,42 +165,45 @@ class _DurationPageState extends State<DurationPage> {
                       SizedBox(
                         height: ((20 / 1080) * screenHeight),
                       ), // spacing between texts
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: ((20 / 1920) * screenWidth),
-                        ),
-                        child: Text(
-                          "You dont have currently a valid ticket",
-                          style: TextStyle(
-                            fontSize: ((32 / 1080) * screenHeight),
-                            color: Colors.black,
+                      if (widget.currentParkingDuration == 0)
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: ((20 / 1920) * screenWidth),
+                          ),
+                          child: Text(
+                            "You don't currently have a valid ticket.",
+                            style: TextStyle(
+                              fontSize: ((32 / 1080) * screenHeight),
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      else ...[
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: ((20 / 1920) * screenWidth),
+                          ),
+                          child: Text(
+                            "You have ${widget.currentParkingDuration ~/ 60}h ${(widget.currentParkingDuration % 60).toString().padLeft(2, '0')}min of parking left",
+                            style: TextStyle(
+                              fontSize: ((32 / 1080) * screenHeight),
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: ((20 / 1920) * screenWidth),
-                        ),
-                        child: Text(
-                          "You have XX h YY min of parking left",
-                          style: TextStyle(
-                            fontSize: ((32 / 1080) * screenHeight),
-                            color: Colors.black,
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: ((20 / 1920) * screenWidth),
+                          ),
+                          child: Text(
+                            "Your ticket is valid until: ${TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: widget.currentParkingDuration))).format(context)}",
+                            style: TextStyle(
+                              fontSize: ((32 / 1080) * screenHeight),
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: ((20 / 1920) * screenWidth),
-                        ),
-                        child: Text(
-                          "Your ticket is valid until : XX h YY min",
-                          style: TextStyle(
-                            fontSize: ((32 / 1080) * screenHeight),
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
+                      ],
                     ],
                   ),
                 ),
