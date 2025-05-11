@@ -42,7 +42,7 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           right: 0,
           child: Center(
             child: Text(
-              "Please type your liscence plate",
+              "Please type your license plate",
               style: TextStyle(color: Colors.black, fontSize: ((56 / 1080) * screenHeight)),
             ),
           ),

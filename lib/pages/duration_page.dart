@@ -7,13 +7,17 @@ class DurationPage extends StatefulWidget {
   final String plate;
   final List<int> prices;
   final List<int> durations;
+  final Function(int d, int p) setDurationPrice;
+  final int currentParkingDuration;
 
   const DurationPage({
     super.key,
     required this.onNavButtonPressed,
     required this.plate,
+    required this.currentParkingDuration,
     required this.prices,
     required this.durations,
+    required this.setDurationPrice,
   });
 
   @override
@@ -64,21 +68,41 @@ class _DurationPageState extends State<DurationPage> {
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(Icons.arrow_back, color: Colors.white, size: ((56/1080) * screenHeight)),
+            Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: ((56 / 1080) * screenHeight),
+            ),
             SizedBox(width: 8),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
+            Text(
+              "Back",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ((56 / 1080) * screenHeight),
+              ),
+            ),
           ],
         ),
         BigButton(
-          onButtonPressed: () => {widget.onNavButtonPressed("paye")},
+          onButtonPressed: () {widget.setDurationPrice(_duration, _price); widget.onNavButtonPressed("paye");},
           isLeft: false,
           isBottom: true,
           isCircle: false,
           color: Colors.green,
           children: [
-            Text("Next", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
+            Text(
+              "Next",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ((56 / 1080) * screenHeight),
+              ),
+            ),
             SizedBox(width: 8),
-            Icon(Icons.arrow_forward, color: Colors.white, size: ((56/1080) * screenHeight)),
+            Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+              size: ((56 / 1080) * screenHeight),
+            ),
           ],
         ),
 
@@ -88,14 +112,17 @@ class _DurationPageState extends State<DurationPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: ((60/1080) * screenHeight)),
+                padding: EdgeInsets.only(top: ((60 / 1080) * screenHeight)),
                 child: Text(
                   "Duration Selected : ${_formatIntMinutes(_duration)}    Price : ${_formatPrice(_price)}",
-                  style: TextStyle(color: Colors.black, fontSize: ((42/1080) * screenHeight)),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: ((42 / 1080) * screenHeight),
+                  ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: ((60/1080) * screenHeight)),
+                padding: EdgeInsets.only(top: ((60 / 1080) * screenHeight)),
                 child: DurationSlider(
                   setDuration: (v, n) => _setDuration(v, n),
                   durationIntervals: widget.durations,
@@ -104,25 +131,74 @@ class _DurationPageState extends State<DurationPage> {
               ),
 
               Padding(
-                padding: EdgeInsets.only(top: ((60/1080) * screenHeight)),
+                padding: EdgeInsets.only(top: ((60 / 1080) * screenHeight)),
                 child: Container(
-                  width: ((660/1920) * screenWidth),
-                  height: ((330/1080) * screenHeight),
+                  width: ((660 / 1920) * screenWidth),
+                  height: ((330 / 1080) * screenHeight),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.black, width: 5),
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      "Current Status : ${widget.plate}",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: ((42/1080) * screenHeight),
-                        fontWeight: FontWeight.bold,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: ((10 / 1080) * screenHeight),
+                          ),
+                          child: Text(
+                            "Current Status : ${widget.plate}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: ((42 / 1080) * screenHeight),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        height: ((20 / 1080) * screenHeight),
+                      ), // spacing between texts
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: ((20 / 1920) * screenWidth),
+                        ),
+                        child: Text(
+                          "You dont have currently a valid ticket",
+                          style: TextStyle(
+                            fontSize: ((32 / 1080) * screenHeight),
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: ((20 / 1920) * screenWidth),
+                        ),
+                        child: Text(
+                          "You have XX h YY min of parking left",
+                          style: TextStyle(
+                            fontSize: ((32 / 1080) * screenHeight),
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: ((20 / 1920) * screenWidth),
+                        ),
+                        child: Text(
+                          "Your ticket is valid until : XX h YY min",
+                          style: TextStyle(
+                            fontSize: ((32 / 1080) * screenHeight),
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

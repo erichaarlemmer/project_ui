@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_ui/pages/confirmation_page.dart';
 import 'package:project_ui/pages/duration_page.dart';
 import 'package:project_ui/pages/login_page.dart';
 import 'package:project_ui/pages/plate_logged_page.dart';
@@ -30,6 +31,10 @@ class _SkeletonPageState extends State<SkeletonPage> {
   String _plate = "";
   String _username = "";
   List<String> _userPlates = [];
+  int _parkingDurationLeft = 0;
+
+  int _curentTicketDuration = 0;
+  int _curentTicketPrice = 0;
 
   final channel = WebSocketChannel.connect(Uri.parse(wsServerAddress));
 
@@ -51,6 +56,14 @@ class _SkeletonPageState extends State<SkeletonPage> {
     channel.sink.add(payload);
   }
 
+  void _getCarParkingStatus() {
+    final payload = jsonEncode({
+      "type": "get_car_parcking_status",
+      "plate": _plate,
+    });
+    channel.sink.add(payload);
+  }
+
   void _setTotemInfos(Map<String, dynamic> data) {
     setState(() {
       _parkingName = data["parking_name"];
@@ -62,9 +75,10 @@ class _SkeletonPageState extends State<SkeletonPage> {
   @override
   void initState() {
     super.initState();
+    _setListener();
+
     _getTotemInfos();
     _sendClientId();
-    _setListener();
 
     _currentPage = HomePage(
       onButtonPressed: setPage,
@@ -107,11 +121,14 @@ class _SkeletonPageState extends State<SkeletonPage> {
             _userPlates.add(s);
           }
         });
-
-        // setState(() {
-
-        //   _userPlates = decoded["plates"];
-        // });
+      } else if (decoded["type"] == "start") {
+        if (_currentPage is HomePage) {
+          setPage("plate");
+        }
+      } else if (decoded["type"] == "get_car_parcking_status") {
+        setState(() {
+          _parkingDurationLeft = decoded["time_left"];
+        });
       }
     });
   }
@@ -133,6 +150,18 @@ class _SkeletonPageState extends State<SkeletonPage> {
     final now = DateTime.now();
     final timeFormatter = DateFormat('HH:mm');
     return timeFormatter.format(now);
+  }
+
+  void createTicket() {
+    print("I am creating ticket with data");
+    final payload = jsonEncode({
+      "type": "create_new_ticket",
+      "totem_id": totemId,
+      "price": _curentTicketPrice,
+      "duration": _curentTicketDuration,
+      "plate": _plate,
+    });
+    channel.sink.add(payload);
   }
 
   void setPage(String pageNb) {
@@ -185,15 +214,29 @@ class _SkeletonPageState extends State<SkeletonPage> {
           }
           break;
         case "duration":
+          _getCarParkingStatus();
           _currentPage = DurationPage(
             onNavButtonPressed: setPage,
+            currentParkingDuration: _parkingDurationLeft,
             plate: _plate,
             durations: _durations,
-            prices: _prices,
+            prices: _prices,  
+            setDurationPrice: (d, p) {
+              setState(() {
+                _curentTicketDuration = d;
+                _curentTicketPrice = p;
+              });
+            },
           );
           break;
         case "paye":
-          _currentPage = Placeholder();
+          _currentPage = ConfirmationPage(
+            onButtonPressed: setPage,
+            onTicketCreation: createTicket,
+            plate: _plate,
+            duration: _curentTicketDuration,
+            price: _curentTicketPrice,
+          );
           break;
         case "login":
           _currentPage = LoginPage(onNavButtonPressed: setPage);
