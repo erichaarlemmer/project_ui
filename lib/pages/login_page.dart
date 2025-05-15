@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/utils/config.dart';
+import 'package:project_ui/utils/config_totem.dart';
 import 'package:project_ui/widgets/big_button.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 

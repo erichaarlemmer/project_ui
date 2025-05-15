@@ -9,7 +9,7 @@ import 'package:project_ui/pages/help_page.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:project_ui/pages/home_page.dart';
-import 'package:project_ui/utils/config.dart';
+import 'package:project_ui/utils/config_totem.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SkeletonPage extends StatefulWidget {
@@ -23,7 +23,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
   late String _formattedTime;
   late String _formattedDate;
   late Timer _timer;
-  late Widget _currentPage;
+
+  String _currentPageKey = "home";
 
   String _parkingName = "";
   List<int> _durations = [];
@@ -76,23 +77,12 @@ class _SkeletonPageState extends State<SkeletonPage> {
   void initState() {
     super.initState();
     _setListener();
-
     _getTotemInfos();
     _sendClientId();
 
-    _currentPage = HomePage(
-      onButtonPressed: setPage,
-      currentUsername: _username,
-      setUsername: (username) {
-        setState(() {
-          _username = username;
-        });
-      },
-    );
-
     _formattedDate = _getFormattedDate();
     _formattedTime = _getFormattedTime();
-    // Update the time every minute
+
     _timer = Timer.periodic(Duration(minutes: 1), (timer) {
       setState(() {
         _formattedDate = _getFormattedDate();
@@ -106,7 +96,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
       final decoded = jsonDecode(data);
       print("decoded recv data : $decoded");
       if (decoded["type"] == "login") {
-        if (_currentPage is LoginPage) {
+        if (_currentPageKey == "login") {
           setState(() {
             _username = decoded["username"];
           });
@@ -117,12 +107,10 @@ class _SkeletonPageState extends State<SkeletonPage> {
         _setTotemInfos(decoded);
       } else if (decoded["type"] == "user_cars") {
         setState(() {
-          for (String s in decoded["plates"]) {
-            _userPlates.add(s);
-          }
+          _userPlates = List<String>.from(decoded["plates"]);
         });
       } else if (decoded["type"] == "start") {
-        if (_currentPage is HomePage) {
+        if (_currentPageKey == "home") {
           setPage("plate");
         }
       } else if (decoded["type"] == "get_car_parcking_status") {
@@ -142,18 +130,15 @@ class _SkeletonPageState extends State<SkeletonPage> {
 
   String _getFormattedDate() {
     final now = DateTime.now();
-    final dateFormatter = DateFormat('dd/MM/yyyy');
-    return dateFormatter.format(now);
+    return DateFormat('dd/MM/yyyy').format(now);
   }
 
   String _getFormattedTime() {
     final now = DateTime.now();
-    final timeFormatter = DateFormat('HH:mm');
-    return timeFormatter.format(now);
+    return DateFormat('HH:mm').format(now);
   }
 
   void createTicket() {
-    print("I am creating ticket with data");
     final payload = jsonEncode({
       "type": "create_new_ticket",
       "totem_id": totemId,
@@ -166,85 +151,70 @@ class _SkeletonPageState extends State<SkeletonPage> {
 
   void setPage(String pageNb) {
     setState(() {
-      switch (pageNb) {
-        case "none":
-          _currentPage = Placeholder();
-          break;
-        case "home":
-          _currentPage = HomePage(
-            onButtonPressed: setPage,
-            currentUsername: _username,
-            setUsername: (username) {
-              setState(() {
-                _username = username;
-                if (username == "") {
-                  _userPlates = [];
-                }
-              });
-            },
-          );
-          break;
-        case "help":
-          _currentPage = HelpPage(
-            onButtonPressed: setPage,
-            prices: _prices,
-            durations: _durations,
-          );
-          break;
-        case "plate":
-          if (_userPlates.isEmpty) {
-            _currentPage = EnterPlatePage(
-              onNavButtonPressed: setPage,
-              setPlate: (p) {
-                setState(() {
-                  _plate = p;
-                });
-              },
-            );
-          } else {
-            _currentPage = SelectionPage(
-              options: _userPlates,
-              onNavButtonPressed: setPage,
-              setPlate: (p) {
-                setState(() {
-                  _plate = p;
-                });
-              },
-            );
-          }
-          break;
-        case "duration":
-          _getCarParkingStatus();
-          _currentPage = DurationPage(
-            onNavButtonPressed: setPage,
-            currentParkingDuration: _parkingDurationLeft,
-            plate: _plate,
-            durations: _durations,
-            prices: _prices,  
-            setDurationPrice: (d, p) {
-              setState(() {
-                _curentTicketDuration = d;
-                _curentTicketPrice = p;
-              });
-            },
-          );
-          break;
-        case "paye":
-          _currentPage = ConfirmationPage(
-            onButtonPressed: setPage,
-            onTicketCreation: createTicket,
-            plate: _plate,
-            duration: _curentTicketDuration,
-            price: _curentTicketPrice,
-          );
-          break;
-        case "login":
-          _currentPage = LoginPage(onNavButtonPressed: setPage);
-          break;
-        default:
-          throw UnimplementedError();
+      _currentPageKey = pageNb;
+      if (pageNb == "duration") {
+        _getCarParkingStatus();
       }
     });
+  }
+
+  Widget _getCurrentPage() {
+    switch (_currentPageKey) {
+      case "home":
+        return HomePage(
+          onButtonPressed: setPage,
+          currentUsername: _username,
+          setUsername: (username) {
+            setState(() {
+              _username = username;
+              if (username == "") _userPlates = [];
+            });
+          },
+        );
+      case "help":
+        return HelpPage(
+          onButtonPressed: setPage,
+          prices: _prices,
+          durations: _durations,
+        );
+      case "plate":
+        return _userPlates.isEmpty
+            ? EnterPlatePage(
+              onNavButtonPressed: setPage,
+              setPlate: (p) => setState(() => _plate = p),
+            )
+            : SelectionPage(
+              options: _userPlates,
+              onNavButtonPressed: setPage,
+              setPlate: (p) => setState(() => _plate = p),
+            );
+      case "duration":
+        return DurationPage(
+          onNavButtonPressed: setPage,
+          currentParkingDuration: _parkingDurationLeft,
+          plate: _plate,
+          durations: _durations,
+          prices: _prices,
+          setDurationPrice: (d, p) {
+            setState(() {
+              _curentTicketDuration = d;
+              _curentTicketPrice = p;
+            });
+          },
+        );
+      case "paye":
+        return ConfirmationPage(
+          onButtonPressed: setPage,
+          onTicketCreation: createTicket,
+          plate: _plate,
+          duration: _curentTicketDuration,
+          price: _curentTicketPrice,
+        );
+      case "login":
+        return LoginPage(onNavButtonPressed: setPage);
+      default:
+        return const Placeholder();
+    }
   }
 
   @override
@@ -258,9 +228,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
           title: Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                  left: ((50 / 1920) * screenWidth),
-                ), // Padding for date and time
+                padding: EdgeInsets.only(left: ((50 / 1920) * screenWidth)),
                 child: Text(
                   _formattedDate,
                   style: TextStyle(fontSize: ((30 / 1080) * screenHeight)),
@@ -268,7 +236,6 @@ class _SkeletonPageState extends State<SkeletonPage> {
               ),
               Expanded(
                 child: Center(
-                  // This will center the time horizontally
                   child: Text(
                     _formattedTime,
                     style: TextStyle(fontSize: ((30 / 1080) * screenHeight)),
@@ -300,7 +267,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
             ),
           ),
           Container(color: Colors.white.withOpacity(0.86)),
-          _currentPage,
+          _getCurrentPage(),
         ],
       ),
     );
