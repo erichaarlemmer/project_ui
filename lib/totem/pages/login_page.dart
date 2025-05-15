@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/utils/config_totem.dart';
-import 'package:project_ui/widgets/big_button.dart';
+import 'package:project_ui/totem/utils/config_totem.dart';
+import 'package:project_ui/totem/widgets/big_button.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class LoginPage extends StatelessWidget {

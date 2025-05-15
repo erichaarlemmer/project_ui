@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/widgets/big_button.dart';
-import 'package:project_ui/widgets/wireless_payment.dart';
+import 'package:project_ui/totem/widgets/big_button.dart';
+import 'package:project_ui/totem/widgets/wireless_payment.dart';
 
 class HomePage extends StatelessWidget {
   final Function(String) onButtonPressed;

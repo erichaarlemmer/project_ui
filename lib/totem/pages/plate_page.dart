@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/widgets/big_button.dart';
-import 'package:project_ui/widgets/keyboard.dart';
-import 'package:project_ui/widgets/plate_field.dart';
+import 'package:project_ui/totem/widgets/big_button.dart';
+import 'package:project_ui/totem/widgets/keyboard.dart';
+import 'package:project_ui/totem/widgets/plate_field.dart';
 
 class EnterPlatePage extends StatefulWidget {
   final Function(String) onNavButtonPressed;

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:project_ui/pages/confirmation_page.dart';
-import 'package:project_ui/pages/duration_page.dart';
-import 'package:project_ui/pages/login_page.dart';
-import 'package:project_ui/pages/plate_logged_page.dart';
-import 'package:project_ui/pages/plate_page.dart';
-import 'package:project_ui/pages/help_page.dart';
+import 'package:project_ui/totem/pages/confirmation_page.dart';
+import 'package:project_ui/totem/pages/duration_page.dart';
+import 'package:project_ui/totem/pages/login_page.dart';
+import 'package:project_ui/totem/pages/plate_logged_page.dart';
+import 'package:project_ui/totem/pages/plate_page.dart';
+import 'package:project_ui/totem/pages/help_page.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:project_ui/pages/home_page.dart';
-import 'package:project_ui/utils/config_totem.dart';
+import 'package:project_ui/totem/pages/home_page.dart';
+import 'package:project_ui/totem/utils/config_totem.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SkeletonPage extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/pages/skeleton.dart';
+import 'package:project_ui/totem/pages/skeleton.dart';
 
 void main() {
   runApp(const MainApp());

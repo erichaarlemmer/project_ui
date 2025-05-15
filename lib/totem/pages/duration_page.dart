@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/widgets/big_button.dart';
-import 'package:project_ui/widgets/slider.dart';
+import 'package:project_ui/totem/widgets/big_button.dart';
+import 'package:project_ui/totem/widgets/slider.dart';
 
 class DurationPage extends StatefulWidget {
   final Function(String) onNavButtonPressed;

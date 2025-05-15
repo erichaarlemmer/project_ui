@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/widgets/big_button.dart';
+import 'package:project_ui/totem/widgets/big_button.dart';
 
 class SelectionPage extends StatefulWidget {
   final List<String> options;
