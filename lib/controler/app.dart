@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/services/websocket_service.dart';
+import 'package:project_ui/controler/services/websocket_service.dart';
 import 'package:provider/provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/home_screen.dart';

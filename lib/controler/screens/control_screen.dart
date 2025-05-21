@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../models/plate_control_response.dart';
 import '../providers/user_provider.dart';
-import '../screens/plate_details_screen.dart';
+import 'plate_details_screen.dart';
 import '../services/websocket_service.dart';
 import '../widgets/big_button.dart';
 import '../widgets/keyboard.dart';

@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 
 import '../models/user.dart';
 import '../providers/user_provider.dart';
-import '../screens/admin_placeholder_screen.dart';
-import '../screens/control_screen.dart';
+import 'admin_placeholder_screen.dart';
+import 'control_screen.dart';
 import '../services/websocket_service.dart';
+import '../utils/config_control.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,10 +25,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     // TODO: Replace with your real WebSocket URL
-    _wsService = WebSocketService('wss://your-websocket-server-url');
+    _wsService = WebSocketService(wsServerAddress);
 
     _wsSubscription = _wsService.messages.listen(_handleMessage);
+
+    // 👇 Send startup message after slight delay to ensure connection is ready
+    Future.delayed(Duration(milliseconds: 300), () {
+      _wsService.send({"type": "startup", "client_id": clientId});
+    });
   }
 
   void _handleMessage(Map<String, dynamic> message) {
@@ -37,12 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
       userProvider.setUser(user);
 
       if (user.group == 'controler') {
-        Navigator.of(context).pushReplacementNamed(ControlScreen.routeName,
-            arguments: _wsService);
+        Navigator.of(
+          context,
+        ).pushReplacementNamed(ControlScreen.routeName, arguments: _wsService);
       } else if (user.group == 'customer_admin' ||
           user.group == 'system_admin') {
-        Navigator.of(context).pushReplacementNamed(AdminPlaceholderScreen.routeName,
-            arguments: _wsService);
+        Navigator.of(context).pushReplacementNamed(
+          AdminPlaceholderScreen.routeName,
+          arguments: _wsService,
+        );
       } else {
         setState(() {
           _status = "Unknown user group: ${user.group}";
@@ -61,15 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Badge Login'),
-      ),
-      body: Center(
-        child: Text(
-          _status,
-          style: const TextStyle(fontSize: 24),
-        ),
-      ),
+      appBar: AppBar(title: const Text('Badge Login')),
+      body: Center(child: Text(_status, style: const TextStyle(fontSize: 24))),
     );
   }
 }
