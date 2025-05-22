@@ -26,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    // TODO: Replace with your real WebSocket URL
     _wsService = WebSocketService(wsServerAddress);
 
     _wsSubscription = _wsService.messages.listen(_handleMessage);

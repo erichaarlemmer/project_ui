@@ -17,6 +17,17 @@ class ConfirmationPage extends StatelessWidget {
     required this.onTicketCreation,
   });
 
+  String _formatIntMinutes(int minute) {
+    int hours = (minute / 60).floor();
+    int min = minute - hours * 60;
+
+    if (hours == 0) {
+      return "${min}min";
+    } else {
+      return "${hours}h ${min.toString().padLeft(2, '0')}min";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -47,7 +58,9 @@ class ConfirmationPage extends StatelessWidget {
           ],
         ),
         BigButton(
-          onButtonPressed: () {onTicketCreation();},
+          onButtonPressed: () {
+            onTicketCreation();
+          },
           isLeft: false,
           isBottom: true,
           isCircle: false,
@@ -67,6 +80,68 @@ class ConfirmationPage extends StatelessWidget {
               size: ((56 / 1080) * screenHeight),
             ),
           ],
+        ),
+        Center(
+          child: Container(
+            width: (700 / 1080) * screenHeight,
+            padding: EdgeInsets.all(((16 / 1920) * screenWidth)),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular((12 / 1080) * screenHeight),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 8,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Summary',
+                  style: TextStyle(
+                    fontSize: (40 / 1080) * screenHeight,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: (16 / 1080) * screenHeight),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Ticket price : ${price / 100}€',
+                    style: TextStyle(fontSize: (32 / 1080) * screenHeight),
+                  ),
+                ),
+                SizedBox(height: (8 / 1080) * screenHeight),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Duration of the Ticket: ${_formatIntMinutes(duration)}',
+                    style: TextStyle(fontSize: (32 / 1080) * screenHeight),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Ticket price : ${price / 100}€',
+                    style: TextStyle(fontSize: (32 / 1080) * screenHeight),
+                  ),
+                ),
+                SizedBox(height: (8 / 1080) * screenHeight),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Car plate: $plate',
+                    style: TextStyle(fontSize: (32 / 1080) * screenHeight),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );
