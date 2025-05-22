@@ -124,13 +124,6 @@ class ConfirmationPage extends StatelessWidget {
                     style: TextStyle(fontSize: (32 / 1080) * screenHeight),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Ticket price : ${price / 100}€',
-                    style: TextStyle(fontSize: (32 / 1080) * screenHeight),
-                  ),
-                ),
                 SizedBox(height: (8 / 1080) * screenHeight),
                 Align(
                   alignment: Alignment.centerLeft,

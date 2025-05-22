@@ -144,9 +144,11 @@ class _SkeletonPageState extends State<SkeletonPage> {
       "totem_id": totemId,
       "price": _curentTicketPrice,
       "duration": _curentTicketDuration,
+      "token": token,
       "plate": _plate,
     });
     channel.sink.add(payload);
+    setPage("visualise_ticket");
   }
 
   void setPage(String pageNb) {
@@ -212,6 +214,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
         );
       case "login":
         return LoginPage(onNavButtonPressed: setPage);
+      case "visualise_ticket":
+        return Placeholder();
       default:
         return const Placeholder();
     }
