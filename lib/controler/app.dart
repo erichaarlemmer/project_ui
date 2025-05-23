@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_ui/controler/services/websocket_service.dart';
 import 'package:provider/provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/home_screen.dart';
@@ -19,22 +18,25 @@ class MyApp extends StatelessWidget {
         title: 'Badge Login App',
         theme: ThemeData(primarySwatch: Colors.blue),
         home: const HomeScreen(),
-        routes: {
-          ControlScreen.routeName: (context) => const ControlScreen(),
-          PlateDetailsScreen.routeName: (context) {
-            final args =
-                ModalRoute.of(context)!.settings.arguments
-                    as PlateDetailsScreenArgs;
-            return PlateDetailsScreen(
-              response: args.response,
-              wsService: args.wsService,
-            );
-          },
-          AdminPlaceholderScreen.routeName: (context) {
-            final wsService =
-                ModalRoute.of(context)!.settings.arguments as WebSocketService;
-            return AdminPlaceholderScreen(wsService: wsService);
-          },
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case ControlScreen.routeName:
+              return MaterialPageRoute(builder: (_) => const ControlScreen());
+
+            case PlateDetailsScreen.routeName:
+              final args = settings.arguments as PlateDetailsScreenArgs;
+              return MaterialPageRoute(
+                builder: (_) => PlateDetailsScreen(response: args.response),
+              );
+
+            case AdminPlaceholderScreen.routeName:
+              return MaterialPageRoute(
+                builder: (_) => const AdminPlaceholderScreen(),
+              );
+
+            default:
+              return null;
+          }
         },
       ),
     );

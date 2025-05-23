@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../models/plate_control_response.dart';
-import '../services/websocket_service.dart';
 import '../widgets/big_button.dart';
 
 class PlateDetailsScreen extends StatelessWidget {
   static const routeName = '/plate_details';
 
   final PlateControlResponse response;
-  final WebSocketService wsService;
 
   const PlateDetailsScreen({
     super.key,
     required this.response,
-    required this.wsService,
   });
 
   void _goBack(BuildContext context) {
@@ -91,10 +88,8 @@ class PlateDetailsScreen extends StatelessWidget {
 
 class PlateDetailsScreenArgs {
   final PlateControlResponse response;
-  final WebSocketService wsService;
 
   PlateDetailsScreenArgs({
     required this.response,
-    required this.wsService,
   });
 }

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../services/websocket_service.dart';
-
 class AdminPlaceholderScreen extends StatelessWidget {
   static const routeName = '/admin_placeholder';
 
-  final WebSocketService wsService;
 
-  const AdminPlaceholderScreen({super.key, required this.wsService});
+  const AdminPlaceholderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -20,7 +20,6 @@ class ControlScreen extends StatefulWidget {
 }
 
 class _ControlScreenState extends State<ControlScreen> {
-  late WebSocketService wsService;
   String plateInput = '';
 
   StreamSubscription? _wsSubscription;
@@ -29,8 +28,7 @@ class _ControlScreenState extends State<ControlScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Receive WebSocketService from Navigator arguments
-    wsService = ModalRoute.of(context)!.settings.arguments as WebSocketService;
-
+    final wsService = Provider.of<WebSocketService>(context, listen: false);
     // Subscribe to messages
     _wsSubscription ??= wsService.messages.listen(_handleMessage);
   }
@@ -41,10 +39,7 @@ class _ControlScreenState extends State<ControlScreen> {
       final response = PlateControlResponse.fromJson(message);
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) => PlateDetailsScreen(
-            response: response,
-            wsService: wsService,
-          ),
+          builder: (_) => PlateDetailsScreen(response: response),
         ),
       );
     }
@@ -65,11 +60,9 @@ class _ControlScreenState extends State<ControlScreen> {
   }
 
   void _submit() {
+    final wsService = Provider.of<WebSocketService>(context, listen: false);
     if (plateInput.isEmpty) return;
-    final request = {
-      "type": "control_plate",
-      "plate": plateInput,
-    };
+    final request = {"type": "control_plate", "plate": plateInput};
     wsService.send(request);
   }
 
