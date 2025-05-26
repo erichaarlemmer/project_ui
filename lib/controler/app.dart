@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_ui/controler/screens/QrLoginScreen.dart';
 import 'package:provider/provider.dart';
 import 'providers/user_provider.dart';
 import 'screens/home_screen.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (_) => const AdminPlaceholderScreen(),
               );
+
+            case QrLoginScreen.routeName:
+              return MaterialPageRoute(builder: (_) => const QrLoginScreen());
 
             default:
               return null;

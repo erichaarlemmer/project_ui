@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:project_ui/controler/screens/QrLoginScreen.dart';
+import 'package:project_ui/controler/widgets/big_button.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
@@ -50,10 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
       userProvider.setUser(user);
 
       if (user.group == 'controler') {
-        Navigator.of(context).pushReplacementNamed(
-          ControlScreen.routeName,
-          arguments: wsService,
-        );
+        Navigator.of(
+          context,
+        ).pushReplacementNamed(ControlScreen.routeName, arguments: wsService);
       } else if (user.group == 'customer_admin' ||
           user.group == 'system_admin') {
         Navigator.of(context).pushReplacementNamed(
@@ -76,14 +77,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Badge Login')),
-      body: Center(
-        child: Text(
-          _status,
-          style: const TextStyle(fontSize: 24),
-          textAlign: TextAlign.center,
-        ),
+      body: Stack(
+        children: [
+          Center(
+            child: Text(
+              _status,
+              style: const TextStyle(fontSize: 24),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          BigButton(
+            onButtonPressed: () => {
+              Navigator.of(context).pushNamed(QrLoginScreen.routeName)
+            },
+            isLeft: true,
+            isBottom: false,
+            isCircle: false,
+            color: Colors.grey,
+            children: [
+              Text(
+                "Login",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ((56 / 1080) * screenHeight),
+                ),
+              ),
+              SizedBox(width: 8),
+              Icon(
+                Icons.login,
+                color: Colors.white,
+                size: ((56 / 1080) * screenHeight),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
