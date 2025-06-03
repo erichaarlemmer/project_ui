@@ -9,6 +9,7 @@ import 'package:project_ui/totem/pages/help_page.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:project_ui/totem/pages/home_page.dart';
+import 'package:project_ui/totem/pages/ticket_page.dart';
 import 'package:project_ui/totem/utils/config_totem.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -29,13 +30,16 @@ class _SkeletonPageState extends State<SkeletonPage> {
   String _parkingName = "";
   List<int> _durations = [];
   List<int> _prices = [];
-  String _plate = "";
+
   String _username = "";
+
+  String _plate = "";
   List<String> _userPlates = [];
   int _parkingDurationLeft = 0;
-
   int _curentTicketDuration = 0;
   int _curentTicketPrice = 0;
+  String _currentTicketId = "";
+  int _currentTicketCreationTime = 0;
 
   final channel = WebSocketChannel.connect(Uri.parse(wsServerAddress));
 
@@ -91,7 +95,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
     });
   }
 
-  void _setListener() { // add the ticket_creation type to get the ticket_id
+  void _setListener() {
+    // add the ticket_creation type to get the ticket_id
     channel.stream.listen((data) {
       final decoded = jsonDecode(data);
       print("decoded recv data : $decoded");
@@ -116,6 +121,11 @@ class _SkeletonPageState extends State<SkeletonPage> {
       } else if (decoded["type"] == "get_car_parcking_status") {
         setState(() {
           _parkingDurationLeft = decoded["time_left"];
+        });
+      } else if (decoded["type"] == "ticket_creation") {
+        setState(() {
+          _currentTicketCreationTime = decoded["creationTime"];
+          _currentTicketId = decoded["ticketId"];
         });
       }
     });
@@ -161,6 +171,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   }
 
   Widget _getCurrentPage() {
+    // reset all values on comme back on home page
     switch (_currentPageKey) {
       case "home":
         return HomePage(
@@ -215,7 +226,15 @@ class _SkeletonPageState extends State<SkeletonPage> {
       case "login":
         return LoginPage(onNavButtonPressed: setPage);
       case "visualise_ticket":
-        return Placeholder();
+        return TicketPage(
+          onButtonPressed: setPage,
+          plate: _plate,
+          duration: _curentTicketDuration,
+          price: _curentTicketPrice,
+          ticketId: _currentTicketId,
+          ticketCreationTime: _currentTicketCreationTime,
+          parkingName: _parkingName,
+        );
       default:
         return const Placeholder();
     }
