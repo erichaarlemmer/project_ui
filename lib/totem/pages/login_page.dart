@@ -21,9 +21,9 @@ class LoginPage extends StatelessWidget {
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(Icons.arrow_back, color: Colors.white, size: ((56/1080) * screenHeight)),
-            const SizedBox(width: 8),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((56/1080) * screenHeight))),
+            Icon(Icons.arrow_back, color: Colors.white, size: ((100/1080) * screenHeight)),
+            const SizedBox(width: 16),
+            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((100/1080) * screenHeight))),
           ],
         ),
         Center(
@@ -32,19 +32,19 @@ class LoginPage extends StatelessWidget {
             children: [
               Text(
                 'Please scan the QR code to log in:',
-                style: TextStyle(fontSize: ((42/1080) * screenHeight), fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: ((84/1080) * screenHeight), fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
 
               SizedBox(
-                height: ((20/1080) * screenHeight),
+                height: ((40/1080) * screenHeight),
               ), // Adds space between the text and the QR code
               QrImage(
                 data:
                     '$httpServerAddress/auth/login/$totemId', // Replace with the data you want to encode in the QR code
                 size:
-                    MediaQuery.of(context).size.height /
-                    2, // Size of the QR code
+                    MediaQuery.of(context).size.height / 1.5
+                    , // Size of the QR code
               ),
             ],
           ),

@@ -1,5 +1,6 @@
-// const String ipAddr = "172.22.177.13";
 const String ipAddr = "localhost";
+// const String ipAddr = "192.168.206.80";
+
 const String port = "8000";
 
 const String totemId = "totem_321";

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:project_ui/controler/utils/config_control.dart';
+import 'package:project_ui/controler/widgets/big_button.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -62,30 +64,53 @@ class _QrLoginScreenState extends State<QrLoginScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('QR Login')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Scan the QR code to log in.',
-              style: TextStyle(
-                fontSize: ((40 / 1080) * screenHeight),
-                fontWeight: FontWeight.bold,
+    return Stack(
+      children: [
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Scan the QR code to log in.',
+                style: TextStyle(
+                  fontSize: ((40 / 1080) * screenHeight),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  decoration: TextDecoration.none,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
+              const SizedBox(height: 40),
+              QrImage(
+                data: '$httpServerAddress/ctrl/login/$clientId',
+                size: screenHeight / 2,
+              ),
+            ],
+          ),
+        ),
+        BigButton(
+          onButtonPressed: () => {Navigator.of(context).pop()},
+          isLeft: true,
+          isBottom: false,
+          isCircle: false,
+          color: Colors.grey,
+          children: [
+            Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: ((56 / 1080) * screenHeight),
             ),
-            const SizedBox(height: 40),
-            QrImage(
-              data:
-                  'exemple.com', // Replace with the data you want to encode in the QR code
-              size:
-                  MediaQuery.of(context).size.height / 2, // Size of the QR code
+            SizedBox(width: ((8 / 1080) * screenHeight)),
+            Text(
+              "Back",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ((56 / 1080) * screenHeight),
+              ),
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 }

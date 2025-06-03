@@ -12,11 +12,11 @@ class KeyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: ((100 / 1080) * screenHeight),
-      height: ((100 / 1080) * screenHeight),
+      width: ((180 / 1920) * screenWidth),
+      height: ((150 / 1080) * screenHeight),
       child: ElevatedButton(
         onPressed: () => {onPressed(keyLetter)},
         style: ElevatedButton.styleFrom(
@@ -24,7 +24,7 @@ class KeyButton extends StatelessWidget {
           minimumSize: Size.zero,
           padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(((5 / 1080) * screenHeight)),
+            borderRadius: BorderRadius.circular(((10 / 1080) * screenHeight)),
             side: BorderSide(
               color: Colors.black,
               width: ((5 / 1080) * screenHeight),
@@ -34,7 +34,7 @@ class KeyButton extends StatelessWidget {
         child: Text(
           keyLetter,
           style: TextStyle(
-            fontSize: ((50 / 1080) * screenHeight),
+            fontSize: ((100 / 1080) * screenHeight),
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -66,7 +66,7 @@ class Keyboard extends StatelessWidget {
           azertyFormat.map((row) {
             return Padding(
               padding: EdgeInsets.symmetric(
-                vertical: ((5 / 1080) * screenHeight),
+                vertical: ((1 / 1080) * screenHeight),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +74,7 @@ class Keyboard extends StatelessWidget {
                     row.map((letter) {
                       return Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: ((5 / 1080) * screenHeight),
+                          horizontal: ((1 / 1080) * screenHeight),
                         ),
                         child: KeyButton(
                           keyLetter: letter,

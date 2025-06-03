@@ -45,14 +45,14 @@ class ConfirmationPage extends StatelessWidget {
             Icon(
               Icons.arrow_back,
               color: Colors.white,
-              size: ((56 / 1080) * screenHeight),
+              size: ((100 / 1080) * screenHeight),
             ),
-            SizedBox(width: ((8 / 1920) * screenWidth)),
+            SizedBox(width: ((16 / 1920) * screenWidth)),
             Text(
               "Back",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((56 / 1080) * screenHeight),
+                fontSize: ((100 / 1080) * screenHeight),
               ),
             ),
           ],
@@ -70,20 +70,20 @@ class ConfirmationPage extends StatelessWidget {
               "Pay Ticket",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((56 / 1080) * screenHeight),
+                fontSize: ((100 / 1080) * screenHeight),
               ),
             ),
-            SizedBox(width: ((8 / 1920) * screenWidth)),
+            SizedBox(width: ((16 / 1920) * screenWidth)),
             Icon(
               Icons.shop_outlined,
               color: Colors.white,
-              size: ((56 / 1080) * screenHeight),
+              size: ((100 / 1080) * screenHeight),
             ),
           ],
         ),
         Center(
           child: Container(
-            width: (700 / 1080) * screenHeight,
+            width: (1400 / 1080) * screenHeight,
             padding: EdgeInsets.all(((16 / 1920) * screenWidth)),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -103,7 +103,7 @@ class ConfirmationPage extends StatelessWidget {
                 Text(
                   'Summary',
                   style: TextStyle(
-                    fontSize: (40 / 1080) * screenHeight,
+                    fontSize: (100 / 1080) * screenHeight,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -113,7 +113,7 @@ class ConfirmationPage extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Ticket price : ${price / 100}€',
-                    style: TextStyle(fontSize: (32 / 1080) * screenHeight),
+                    style: TextStyle(fontSize: (60 / 1080) * screenHeight),
                   ),
                 ),
                 SizedBox(height: (8 / 1080) * screenHeight),
@@ -121,7 +121,7 @@ class ConfirmationPage extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Duration of the Ticket: ${_formatIntMinutes(duration)}',
-                    style: TextStyle(fontSize: (32 / 1080) * screenHeight),
+                    style: TextStyle(fontSize: (60 / 1080) * screenHeight),
                   ),
                 ),
                 SizedBox(height: (8 / 1080) * screenHeight),
@@ -129,7 +129,7 @@ class ConfirmationPage extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Car plate: $plate',
-                    style: TextStyle(fontSize: (32 / 1080) * screenHeight),
+                    style: TextStyle(fontSize: (60 / 1080) * screenHeight),
                   ),
                 ),
               ],

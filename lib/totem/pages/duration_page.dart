@@ -71,14 +71,14 @@ class _DurationPageState extends State<DurationPage> {
             Icon(
               Icons.arrow_back,
               color: Colors.white,
-              size: ((56 / 1080) * screenHeight),
+              size: ((100 / 1080) * screenHeight),
             ),
             SizedBox(width: 8),
             Text(
               "Back",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((56 / 1080) * screenHeight),
+                fontSize: ((100 / 1080) * screenHeight),
               ),
             ),
           ],
@@ -97,14 +97,14 @@ class _DurationPageState extends State<DurationPage> {
               "Next",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((56 / 1080) * screenHeight),
+                fontSize: ((100 / 1080) * screenHeight),
               ),
             ),
-            SizedBox(width: 8),
+            SizedBox(width: 16),
             Icon(
               Icons.arrow_forward,
               color: Colors.white,
-              size: ((56 / 1080) * screenHeight),
+              size: ((100 / 1080) * screenHeight),
             ),
           ],
         ),
@@ -115,17 +115,17 @@ class _DurationPageState extends State<DurationPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: ((60 / 1080) * screenHeight)),
+                padding: EdgeInsets.only(top: ((30 / 1080) * screenHeight)),
                 child: Text(
                   "Duration Selected : ${_formatIntMinutes(_duration)}    Price : ${_formatPrice(_price)}",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: ((42 / 1080) * screenHeight),
+                    fontSize: ((84 / 1080) * screenHeight),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: ((60 / 1080) * screenHeight)),
+                padding: EdgeInsets.only(top: ((30 / 1080) * screenHeight)),
                 child: DurationSlider(
                   setDuration: (v, n) => _setDuration(v, n),
                   durationIntervals: widget.durations,
@@ -134,10 +134,10 @@ class _DurationPageState extends State<DurationPage> {
               ),
 
               Padding(
-                padding: EdgeInsets.only(top: ((60 / 1080) * screenHeight)),
+                padding: EdgeInsets.only(top: ((30 / 1080) * screenHeight)),
                 child: Container(
-                  width: ((660 / 1920) * screenWidth),
-                  height: ((330 / 1080) * screenHeight),
+                  width: ((1000 / 1920) * screenWidth),
+                  height: ((500 / 1080) * screenHeight),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.black, width: 5),
@@ -156,7 +156,7 @@ class _DurationPageState extends State<DurationPage> {
                             "Current Status : ${widget.plate}",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: ((42 / 1080) * screenHeight),
+                              fontSize: ((80 / 1080) * screenHeight),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -173,7 +173,7 @@ class _DurationPageState extends State<DurationPage> {
                           child: Text(
                             "You don't currently have a valid ticket.",
                             style: TextStyle(
-                              fontSize: ((32 / 1080) * screenHeight),
+                              fontSize: ((60 / 1080) * screenHeight),
                               color: Colors.black,
                             ),
                           ),
@@ -186,7 +186,7 @@ class _DurationPageState extends State<DurationPage> {
                           child: Text(
                             "You have ${widget.currentParkingDuration ~/ 60}h ${(widget.currentParkingDuration % 60).toString().padLeft(2, '0')}min of parking left",
                             style: TextStyle(
-                              fontSize: ((32 / 1080) * screenHeight),
+                              fontSize: ((60 / 1080) * screenHeight),
                               color: Colors.black,
                             ),
                           ),
@@ -198,7 +198,7 @@ class _DurationPageState extends State<DurationPage> {
                           child: Text(
                             "Your ticket is valid until: ${TimeOfDay.fromDateTime(DateTime.now().add(Duration(minutes: widget.currentParkingDuration))).format(context)}",
                             style: TextStyle(
-                              fontSize: ((32 / 1080) * screenHeight),
+                              fontSize: ((60 / 1080) * screenHeight),
                               color: Colors.black,
                             ),
                           ),

@@ -91,7 +91,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
     });
   }
 
-  void _setListener() {
+  void _setListener() { // add the ticket_creation type to get the ticket_id
     channel.stream.listen((data) {
       final decoded = jsonDecode(data);
       print("decoded recv data : $decoded");
@@ -225,39 +225,44 @@ class _SkeletonPageState extends State<SkeletonPage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(((60 / 1080) * screenHeight)),
+        preferredSize: Size.fromHeight((120 / 1080) * screenHeight),
         child: AppBar(
-          title: Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: ((50 / 1920) * screenWidth)),
-                child: Text(
-                  _formattedDate,
-                  style: TextStyle(fontSize: ((30 / 1080) * screenHeight)),
-                ),
-              ),
-              Expanded(
-                child: Center(
+          backgroundColor: Color(0xFFB0B0B0),
+          flexibleSpace: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: (60 / 1920) * screenWidth,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: ((40 / 1920) * screenWidth)),
                   child: Text(
-                    _formattedTime,
-                    style: TextStyle(fontSize: ((30 / 1080) * screenHeight)),
+                    _formattedDate,
+                    style: TextStyle(fontSize: (60 / 1080) * screenHeight),
                   ),
                 ),
-              ),
-            ],
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: ((50 / 1920) * screenWidth)),
-              child: Text(
-                _parkingName.isNotEmpty ? _parkingName : "Loading...",
-                style: TextStyle(fontSize: ((30 / 1080) * screenHeight)),
-              ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      _formattedTime,
+                      style: TextStyle(fontSize: (60 / 1080) * screenHeight),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: ((40 / 1920) * screenWidth)),
+                  child: Text(
+                    _parkingName.isNotEmpty ? _parkingName : "Loading...",
+                    style: TextStyle(fontSize: (60 / 1080) * screenHeight),
+                  ),
+                ),
+              ],
             ),
-          ],
-          backgroundColor: Color(0xFFB0B0B0),
+          ),
         ),
       ),
       body: Stack(

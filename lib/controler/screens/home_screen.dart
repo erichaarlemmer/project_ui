@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   StreamSubscription? _wsSubscription;
-  String _status = "Waiting for badge scan...";
+  // String _status = "Waiting for badge scan...";
   bool _isInitialized = false;
 
   @override
@@ -62,9 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
           arguments: wsService,
         );
       } else {
-        setState(() {
-          _status = "Unknown user group: ${user.group}";
-        });
+        // setState(() {
+        //   _status = "Unknown user group: ${user.group}";
+        // });
       }
     }
   }
@@ -79,43 +79,49 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Badge Login')),
-      body: Stack(
-        children: [
-          Center(
-            child: Text(
-              _status,
-              style: const TextStyle(fontSize: 24),
-              textAlign: TextAlign.center,
+    return Stack(
+      children: [
+        Center(
+          child: Text(
+            'Scan Badge or login...',
+            style: TextStyle(
+              fontSize: (72 / 1080) * screenHeight,
+              color: Colors.black,
+              decoration: TextDecoration.none,
             ),
           ),
-          BigButton(
-            onButtonPressed: () => {
-              Navigator.of(context).pushNamed(QrLoginScreen.routeName)
-            },
-            isLeft: true,
-            isBottom: false,
-            isCircle: false,
-            color: Colors.grey,
-            children: [
-              Text(
-                "Login",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: ((56 / 1080) * screenHeight),
-                ),
-              ),
-              SizedBox(width: 8),
-              Icon(
-                Icons.login,
+        ),
+        // Center(
+        //   child: Text(
+        //     _status,
+        //     style: const TextStyle(fontSize: 24),
+        //     textAlign: TextAlign.center,
+        //   ),
+        // ),
+        BigButton(
+          onButtonPressed:
+              () => {Navigator.of(context).pushNamed(QrLoginScreen.routeName)},
+          isLeft: true,
+          isBottom: false,
+          isCircle: false,
+          color: Colors.grey,
+          children: [
+            Text(
+              "Login",
+              style: TextStyle(
                 color: Colors.white,
-                size: ((56 / 1080) * screenHeight),
+                fontSize: ((56 / 1080) * screenHeight),
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+            SizedBox(width: 8),
+            Icon(
+              Icons.login,
+              color: Colors.white,
+              size: ((56 / 1080) * screenHeight),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

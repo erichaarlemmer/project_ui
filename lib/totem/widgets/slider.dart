@@ -102,14 +102,14 @@ class _DurationSliderState extends State<DurationSlider> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width * 2 / 3,
+          width: MediaQuery.of(context).size.width * 5/6,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                   thumbShape: RoundSliderThumbShape(
-                    enabledThumbRadius: ((25 / 1080) * screenHeight),
+                    enabledThumbRadius: ((50 / 1080) * screenHeight),
                   ),
                 ),
                 child: Slider(
@@ -139,7 +139,7 @@ class _DurationSliderState extends State<DurationSlider> {
                             _formatIntMinutes(min),
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: ((20 / 1080) * screenHeight),
+                              fontSize: ((60 / 1080) * screenHeight),
                             ),
                           ),
                         )

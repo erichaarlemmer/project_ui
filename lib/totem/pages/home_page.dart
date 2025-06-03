@@ -32,14 +32,14 @@ class HomePage extends StatelessWidget {
             "Login",
             style: TextStyle(
               color: Colors.white,
-              fontSize: ((56 / 1080) * screenHeight),
+              fontSize: ((100 / 1080) * screenHeight),
             ),
           ),
           SizedBox(width: 8),
           Icon(
             Icons.login,
             color: Colors.white,
-            size: ((56 / 1080) * screenHeight),
+            size: ((100 / 1080) * screenHeight),
           ),
         ],
       );
@@ -58,14 +58,14 @@ class HomePage extends StatelessWidget {
             "Logout",
             style: TextStyle(
               color: Colors.white,
-              fontSize: ((56 / 1080) * screenHeight),
+              fontSize: ((100 / 1080) * screenHeight),
             ),
           ),
           SizedBox(width: 8),
           Icon(
             Icons.logout,
             color: Colors.white,
-            size: ((56 / 1080) * screenHeight),
+            size: ((100 / 1080) * screenHeight),
           ),
         ],
       );
@@ -80,11 +80,14 @@ class HomePage extends StatelessWidget {
           isCircle: true,
           color: Colors.grey,
           children: [
-            Text(
-              "?",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: ((56 / 1080) * screenHeight),
+            Padding(
+              padding: EdgeInsets.all((50 / 1080) * screenHeight),
+              child: Text(
+                "?",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ((100 / 1080) * screenHeight),
+                ),
               ),
             ),
           ],
@@ -96,19 +99,19 @@ class HomePage extends StatelessWidget {
               "Start",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((56 / 1080) * screenHeight),
+                fontSize: ((100 / 1080) * screenHeight),
               ),
             ),
             SizedBox(width: 20),
             Icon(
               Icons.payment_outlined,
               color: Colors.white,
-              size: ((100 / 1080) * screenHeight),
+              size: ((200 / 1080) * screenHeight),
             ),
             Icon(
               Icons.contactless_outlined,
               color: Colors.white,
-              size: ((100 / 1080) * screenHeight),
+              size: ((200 / 1080) * screenHeight),
             ),
           ],
         ),
@@ -120,7 +123,7 @@ class HomePage extends StatelessWidget {
             "Welcome $currentUsername",
             style: TextStyle(
               color: Colors.black,
-              fontSize: ((91 / 1080) * screenHeight),
+              fontSize: ((182 / 1080) * screenHeight),
             ),
           ),
         ),
