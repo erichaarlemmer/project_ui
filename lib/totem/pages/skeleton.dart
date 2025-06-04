@@ -122,12 +122,13 @@ class _SkeletonPageState extends State<SkeletonPage> {
         setState(() {
           _parkingDurationLeft = decoded["time_left"];
         });
-      } else if (decoded["type"] == "ticket_creation") {
-        setState(() {
-          _currentTicketCreationTime = decoded["creationTime"];
-          _currentTicketId = decoded["ticketId"];
-        });
-      }
+      } 
+      // else if (decoded["type"] == "ticket_creation") {
+      //   setState(() {
+      //     _currentTicketCreationTime = decoded["creationTime"];
+      //     _currentTicketId = decoded["ticketId"];
+      //   });
+      // }
     });
   }
 

@@ -59,9 +59,19 @@ class HelpPage extends StatelessWidget {
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(Icons.arrow_back, color: Colors.white, size: ((100/1080) * screenHeight)),
-            SizedBox(width: ((16/1920) * screenWidth)),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((100/1080) * screenHeight))),
+            Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: ((100 / 1080) * screenHeight),
+            ),
+            SizedBox(width: ((16 / 1920) * screenWidth)),
+            Text(
+              "Back",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ((100 / 1080) * screenHeight),
+              ),
+            ),
           ],
         ),
         Center(
@@ -70,13 +80,16 @@ class HelpPage extends StatelessWidget {
             children: [
               Text(
                 'Price information',
-                style: TextStyle(fontSize: ((100/1080) * screenHeight), fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: ((100 / 1080) * screenHeight),
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: ((40/1080) * screenHeight)),
+              SizedBox(height: ((40 / 1080) * screenHeight)),
               Container(
-                padding: EdgeInsets.all(((40/1080) * screenHeight)),
-                margin: EdgeInsets.all(((40/1080) * screenHeight)),
+                padding: EdgeInsets.all(((40 / 1080) * screenHeight)),
+                margin: EdgeInsets.all(((40 / 1080) * screenHeight)),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.black, width: 10),
@@ -90,7 +103,9 @@ class HelpPage extends StatelessWidget {
                       priceDurationInfo.map((info) {
                         return Text(
                           info,
-                          style: TextStyle(fontSize: ((48/1080) * screenHeight)),
+                          style: TextStyle(
+                            fontSize: ((48 / 1080) * screenHeight),
+                          ),
                           textAlign:
                               TextAlign.left, // Align text itself to left
                         );

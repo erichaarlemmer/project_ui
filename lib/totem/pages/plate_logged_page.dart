@@ -125,9 +125,7 @@ class _SelectionPageState extends State<SelectionPage> {
                           child: Text(
                             value,
                             style: TextStyle(
-                              fontSize:
-                                  ((30 / 1080) *
-                                      screenHeight),
+                              fontSize: ((30 / 1080) * screenHeight),
                             ),
                           ),
                         );

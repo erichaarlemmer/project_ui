@@ -32,6 +32,7 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
 
   @override
   Widget build(BuildContext context) {
+
     // final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Stack(
@@ -43,7 +44,10 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           child: Center(
             child: Text(
               "Please type your license plate",
-              style: TextStyle(color: Colors.black, fontSize: ((60 / 1080) * screenHeight)),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: ((60 / 1080) * screenHeight),
+              ),
             ),
           ),
         ),
@@ -54,9 +58,19 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(Icons.arrow_back, color: Colors.white, size: ((100 / 1080) * screenHeight)),
+            Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: ((100 / 1080) * screenHeight),
+            ),
             SizedBox(width: 8),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((100 / 1080) * screenHeight))),
+            Text(
+              "Back",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ((100 / 1080) * screenHeight),
+              ),
+            ),
           ],
         ),
         BigButton(
@@ -69,9 +83,19 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           isCircle: false,
           color: Colors.green,
           children: [
-            Text("Next", style: TextStyle(color: Colors.white, fontSize: ((100 / 1080) * screenHeight))),
+            Text(
+              "Next",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ((100 / 1080) * screenHeight),
+              ),
+            ),
             SizedBox(width: 8),
-            Icon(Icons.arrow_forward, color: Colors.white, size: ((100 / 1080) * screenHeight)),
+            Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+              size: ((100 / 1080) * screenHeight),
+            ),
           ],
         ),
         Align(
