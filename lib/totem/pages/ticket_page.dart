@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project_ui/totem/utils/config_totem.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:project_ui/controler/widgets/big_button.dart';
+import 'package:intl/intl.dart';
 
 class TicketPage extends StatelessWidget {
   final Function(String) onButtonPressed;
@@ -9,6 +11,7 @@ class TicketPage extends StatelessWidget {
   final int price;
   final String ticketId;
   final int ticketCreationTime;
+  final int ticketEnd;
   final String parkingName;
 
   const TicketPage({
@@ -19,12 +22,13 @@ class TicketPage extends StatelessWidget {
     required this.price,
     required this.ticketId,
     required this.ticketCreationTime,
+    required this.ticketEnd,
     required this.parkingName,
   });
 
   TextStyle _infoTextStyle(double screenHeight) {
     return TextStyle(
-      fontSize: (48 / 1080) * screenHeight,
+      fontSize: (60 / 1080) * screenHeight,
       color: Colors.black87,
     );
   }
@@ -40,12 +44,15 @@ class TicketPage extends StatelessWidget {
     }
   }
 
+  String _formatTime(int timestamp) {
+    final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    return DateFormat.Hm().format(date); // HH:mm
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
-
 
     return Stack(
       children: [
@@ -68,9 +75,8 @@ class TicketPage extends StatelessWidget {
                   ),
                   SizedBox(height: ((20 / 1080) * screenHeight)),
                   QrImage(
-                    data:
-                        ticketId, // assuming ticketId is what you want encoded
-                    size: screenHeight / 2,
+                    data: '$httpServerAddress/api/ticket-view/$ticketId/',
+                    size: screenHeight / 1.5,
                   ),
                 ],
               ),
@@ -106,7 +112,11 @@ class TicketPage extends StatelessWidget {
                       style: _infoTextStyle(screenHeight),
                     ),
                     Text(
-                      "Created At: 00H55",
+                      "Created at: ${_formatTime(ticketCreationTime)}",
+                      style: _infoTextStyle(screenHeight),
+                    ),
+                    Text(
+                      "Valid until: ${_formatTime(ticketEnd)}",
                       style: _infoTextStyle(screenHeight),
                     ),
                     Text(

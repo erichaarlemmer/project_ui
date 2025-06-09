@@ -20,6 +20,7 @@ class WebSocketService {
 
     _channel.stream.listen((data) {
       final decoded = jsonDecode(data);
+      print("receiving: $decoded");
       _controller.add(decoded);
     }, onDone: () {
       debugPrint("WebSocket connection closed.");
@@ -41,6 +42,7 @@ class WebSocketService {
 
   void send(Map<String, dynamic> data) {
     try {
+      print("sending: $data");
       if (_channel.closeCode == null) {
         _channel.sink.add(jsonEncode(data));
       } else {

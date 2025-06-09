@@ -1,11 +1,11 @@
 class PlateControlResponse {
-  final String username;
+  final String parkingName;
   final TicketInfo? ticketInfo;
   final List<DateTime> lastFines;
   final List<DateTime> lastChalks;
 
   PlateControlResponse({
-    required this.username,
+    required this.parkingName,
     this.ticketInfo,
     required this.lastFines,
     required this.lastChalks,
@@ -14,7 +14,7 @@ class PlateControlResponse {
   factory PlateControlResponse.fromJson(Map<String, dynamic> json) {
     final ticketJson = json['ticket_info'];
     return PlateControlResponse(
-      username: json['username'] ?? '',
+      parkingName: json['parking_name'] ?? '',
       ticketInfo: ticketJson != null ? TicketInfo.fromJson(ticketJson) : null,
       lastFines: (json['last_fines'] as List<dynamic>? ?? [])
           .map((e) => DateTime.fromMillisecondsSinceEpoch(e * 1000))

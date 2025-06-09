@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final userProvider = context.read<UserProvider>();
       userProvider.setUser(user);
 
-      if (user.group == 'controler') {
+      if (user.group == 'controller') {
         Navigator.of(
           context,
         ).pushReplacementNamed(ControlScreen.routeName, arguments: wsService);

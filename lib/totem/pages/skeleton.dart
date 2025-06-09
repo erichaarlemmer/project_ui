@@ -40,6 +40,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
   int _curentTicketPrice = 0;
   String _currentTicketId = "";
   int _currentTicketCreationTime = 0;
+  int _currentTicketEnd = 0;
+
 
   final channel = WebSocketChannel.connect(Uri.parse(wsServerAddress));
 
@@ -122,13 +124,14 @@ class _SkeletonPageState extends State<SkeletonPage> {
         setState(() {
           _parkingDurationLeft = decoded["time_left"];
         });
-      } 
-      // else if (decoded["type"] == "ticket_creation") {
-      //   setState(() {
-      //     _currentTicketCreationTime = decoded["creationTime"];
-      //     _currentTicketId = decoded["ticketId"];
-      //   });
-      // }
+      } else if (decoded["type"] == "ticket_creation") {
+        setState(() {
+          _currentTicketCreationTime = decoded["start_time"];
+          _currentTicketId = decoded["ticket_id"];
+          _currentTicketEnd = decoded["stop_time"];
+          _currentPageKey = "visualise_ticket";
+        });
+      }
     });
   }
 
@@ -159,7 +162,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
       "plate": _plate,
     });
     channel.sink.add(payload);
-    setPage("visualise_ticket");
+    // setPage("visualise_ticket");
   }
 
   void setPage(String pageNb) {
@@ -234,6 +237,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
           price: _curentTicketPrice,
           ticketId: _currentTicketId,
           ticketCreationTime: _currentTicketCreationTime,
+          ticketEnd: _currentTicketEnd,
           parkingName: _parkingName,
         );
       default:

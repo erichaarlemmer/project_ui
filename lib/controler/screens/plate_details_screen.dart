@@ -56,7 +56,7 @@ class PlateDetailsScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'User: ${response.username}',
+                      'Parking name: ${response.parkingName}',
                       style: TextStyle(
                           fontSize: ((40 / 1080) * screenHeight),
                           fontWeight: FontWeight.bold),
