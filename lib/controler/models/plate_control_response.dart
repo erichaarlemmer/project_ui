@@ -12,9 +12,9 @@ class PlateControlResponse {
   });
 
   factory PlateControlResponse.fromJson(Map<String, dynamic> json) {
-    final ticketJson = json['ticket_info'];
+    final ticketJson = json['ticket'];
     return PlateControlResponse(
-      parkingName: json['parking_name'] ?? '',
+      parkingName: json['parking_name'],
       ticketInfo: ticketJson != null ? TicketInfo.fromJson(ticketJson) : null,
       lastFines: (json['last_fines'] as List<dynamic>? ?? [])
           .map((e) => DateTime.fromMillisecondsSinceEpoch(e * 1000))
