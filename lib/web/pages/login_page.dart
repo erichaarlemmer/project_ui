@@ -5,8 +5,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   final Function(String) onNavButtonPressed;
+  final String clienId;
 
-  const LoginPage({super.key, required this.onNavButtonPressed});
+  const LoginPage({super.key, required this.onNavButtonPressed, required this.clienId});
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +52,13 @@ class LoginPage extends StatelessWidget {
 
               SizedBox(
                 height: ((40 / 1080) * screenHeight),
-              ), // Adds space between the text and the QR code
+              ),
               QrImage(
                 data:
-                    '$httpServerAddress/auth/login/$totemId', // Replace with the data you want to encode in the QR code
+                    '$httpServerAddress/auth/login/$clienId',
                 size:
                     MediaQuery.of(context).size.height /
-                    1.5, // Size of the QR code
+                    1.5,
               ),
             ],
           ),

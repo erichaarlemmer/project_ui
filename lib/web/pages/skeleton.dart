@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_ui/web/pages/confirmation_page.dart';
@@ -25,6 +27,8 @@ class _SkeletonPageState extends State<SkeletonPage> {
   late String _formattedDate;
   late Timer _timer;
 
+  String _clientId = "";
+  List<String> _allParkingNames = ["Waiting for Results"];
   String _currentPageKey = "home";
 
   String _parkingName = "";
@@ -42,19 +46,36 @@ class _SkeletonPageState extends State<SkeletonPage> {
   int _currentTicketCreationTime = 0;
   int _currentTicketEnd = 0;
 
-
   final channel = WebSocketChannel.connect(Uri.parse(wsServerAddress));
 
+  String _generateRandomString(int length) {
+    const characters =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final random = Random.secure();
+    return List.generate(
+      length,
+      (index) => characters[random.nextInt(characters.length)],
+    ).join();
+  }
+
   void _sendClientId() {
-    final payload = jsonEncode({"type": "set_client_id", "client_id": totemId});
+    final payload = jsonEncode({
+      "type": "set_client_id",
+      "client_id": _clientId,
+    });
     channel.sink.add(payload);
   }
 
-  void _getTotemInfos() {
+  void _getParkingData() {
     final payload = jsonEncode({
-      "type": "get_totem_infos",
-      "totem_id": totemId,
+      "type": "getParkingInfos",
+      "parking_name": _parkingName,
     });
+    channel.sink.add(payload);
+  }
+
+  void _getAllParkings() {
+    final payload = jsonEncode({"type": "get_all_parkings"});
     channel.sink.add(payload);
   }
 
@@ -71,7 +92,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
     channel.sink.add(payload);
   }
 
-  void _setTotemInfos(Map<String, dynamic> data) {
+  void _setParkingData(Map<String, dynamic> data) {
     setState(() {
       _parkingName = data["parking_name"];
       _durations = List<int>.from(data["durations"]);
@@ -81,10 +102,14 @@ class _SkeletonPageState extends State<SkeletonPage> {
 
   @override
   void initState() {
+    setState(() {
+      _clientId = _generateRandomString(20);
+    });
+
     super.initState();
     _setListener();
-    _getTotemInfos();
     _sendClientId();
+    _getAllParkings();
 
     _formattedDate = _getFormattedDate();
     _formattedTime = _getFormattedTime();
@@ -110,8 +135,12 @@ class _SkeletonPageState extends State<SkeletonPage> {
           setPage("home");
           _getUserCars(_username);
         }
-      } else if (decoded["type"] == "totem_data") {
-        _setTotemInfos(decoded);
+      } else if (decoded["type"] == "all_parking_names") {
+        setState(() {
+          _allParkingNames = List<String>.from(decoded["all_parking_names"]);
+        });
+      } else if (decoded["type"] == "parking_data") {
+        _setParkingData(decoded);
       } else if (decoded["type"] == "user_cars") {
         setState(() {
           _userPlates = List<String>.from(decoded["plates"]);
@@ -155,10 +184,9 @@ class _SkeletonPageState extends State<SkeletonPage> {
   void createTicket() {
     final payload = jsonEncode({
       "type": "create_new_ticket",
-      "totem_id": totemId,
+      "parking_name": _parkingName,
       "price": _curentTicketPrice,
       "duration": _curentTicketDuration,
-      "token": token,
       "plate": _plate,
     });
     channel.sink.add(payload);
@@ -228,7 +256,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
           price: _curentTicketPrice,
         );
       case "login":
-        return LoginPage(onNavButtonPressed: setPage);
+        return LoginPage(onNavButtonPressed: setPage, clienId: _clientId);
       case "visualise_ticket":
         return TicketPage(
           onButtonPressed: setPage,
@@ -279,9 +307,38 @@ class _SkeletonPageState extends State<SkeletonPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(right: ((40 / 1920) * screenWidth)),
-                  child: Text(
-                    _parkingName.isNotEmpty ? _parkingName : "Loading...",
-                    style: TextStyle(fontSize: (60 / 1080) * screenHeight),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _parkingName.isNotEmpty ? _parkingName : null,
+                      hint: Text(
+                        "Select Parking",
+                        style: TextStyle(fontSize: (60 / 1080) * screenHeight),
+                      ),
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        size: (60 / 1080) * screenHeight,
+                      ),
+                      items:
+                          _allParkingNames.map((String name) {
+                            return DropdownMenuItem<String>(
+                              value: name,
+                              child: Text(
+                                name,
+                                style: TextStyle(
+                                  fontSize: (60 / 1080) * screenHeight,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _parkingName = newValue;
+                          });
+                          _getParkingData();
+                        }
+                      },
+                    ),
                   ),
                 ),
               ],
