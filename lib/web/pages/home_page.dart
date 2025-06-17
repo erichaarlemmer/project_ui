@@ -4,6 +4,7 @@ import 'package:project_ui/web/widgets/big_button.dart';
 class HomePage extends StatelessWidget {
   final Function(String) onButtonPressed;
   final Function(String) setUsername;
+  final Function(String) onCardChanged;
   final String currentUsername;
 
   const HomePage({
@@ -11,6 +12,7 @@ class HomePage extends StatelessWidget {
     required this.onButtonPressed,
     required this.currentUsername,
     required this.setUsername,
+    required this.onCardChanged,
   });
 
   @override
@@ -92,7 +94,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
         BigButton(
-          onButtonPressed: () {},
+          onButtonPressed: () => {onButtonPressed("plate")},
           isLeft: false,
           isBottom: true,
           isCircle: false,
@@ -150,6 +152,7 @@ class HomePage extends StatelessWidget {
                     hintText: 'Enter card number',
                     icon: Icon(Icons.credit_card),
                   ),
+                  onChanged: onCardChanged,
                 ),
               ),
             ],

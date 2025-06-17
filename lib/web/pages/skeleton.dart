@@ -31,6 +31,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   List<String> _allParkingNames = [];
   String _currentPageKey = "home";
 
+  String _card_number = "";
   String _parkingName = "";
   List<int> _durations = [];
   List<int> _prices = [];
@@ -98,6 +99,11 @@ class _SkeletonPageState extends State<SkeletonPage> {
       _durations = List<int>.from(data["durations"]);
       _prices = List<int>.from(data["prices"]);
     });
+  }
+
+  void _sendSartCard() {
+    final payload = jsonEncode({"type": "start_card", "card": _card_number});
+    channel.sink.add(payload);
   }
 
   @override
@@ -179,7 +185,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
 
   void createTicket() {
     final payload = jsonEncode({
-      "type": "create_new_ticket",
+      "type": "web_create_new_ticket",
       "parking_name": _parkingName,
       "price": _curentTicketPrice,
       "duration": _curentTicketDuration,
@@ -203,7 +209,20 @@ class _SkeletonPageState extends State<SkeletonPage> {
     switch (_currentPageKey) {
       case "home":
         return HomePage(
-          onButtonPressed: setPage,
+          onButtonPressed: (page) {
+            if (page != "plate") {
+              setPage(page);
+            }
+            if (_parkingName != "" && _card_number != "") {
+              _sendSartCard();
+              setPage(page);
+            }
+          },
+          onCardChanged: (card) {
+            setState(() {
+              _card_number = card;
+            });
+          },
           currentUsername: _username,
           setUsername: (username) {
             setState(() {

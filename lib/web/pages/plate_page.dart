@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_ui/web/widgets/big_button.dart';
-import 'package:project_ui/web/widgets/keyboard.dart';
-import 'package:project_ui/web/widgets/plate_field.dart';
 
 class EnterPlatePage extends StatefulWidget {
   final Function(String) onNavButtonPressed;
@@ -18,64 +16,66 @@ class EnterPlatePage extends StatefulWidget {
 }
 
 class _EnterPlatePageState extends State<EnterPlatePage> {
-  String _currentPlate = "";
+  final TextEditingController _plateController = TextEditingController();
 
-  void onKeyPress(String key) {
-    setState(() {
-      if (key == "del") {
-        _currentPlate = _currentPlate.substring(0, _currentPlate.length - 1);
-      } else {
-        _currentPlate += key;
-      }
+  @override
+  void initState() {
+    super.initState();
+    _plateController.addListener(() {
+      widget.setPlate(_plateController.text);
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    _plateController.dispose();
+    super.dispose();
+  }
 
-    // final screenWidth = MediaQuery.of(context).size.width;
+  @override
+  Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
-        Positioned(
-          top: ((0 / 1080) * screenHeight),
-          left: 0,
-          right: 0,
-          child: Center(
-            child: Text(
-              "Please type your license plate",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: ((60 / 1080) * screenHeight),
+        Center(
+          child: Container(
+            width: 400,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.black26),
+              boxShadow: [
+                BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3)),
+              ],
+            ),
+            child: TextField(
+              controller: _plateController,
+              decoration: InputDecoration(
+                hintText: "Enter your license plate",
+                border: InputBorder.none,
+                icon: Icon(Icons.directions_car),
               ),
+              style: TextStyle(fontSize: ((80 / 1080) * screenHeight)),
             ),
           ),
         ),
         BigButton(
-          onButtonPressed: () => {widget.onNavButtonPressed("home")},
+          onButtonPressed: () => widget.onNavButtonPressed("home"),
           isLeft: true,
           isBottom: true,
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-              size: ((100 / 1080) * screenHeight),
-            ),
+            Icon(Icons.arrow_back, color: Colors.white, size: ((100 / 1080) * screenHeight)),
             SizedBox(width: 8),
-            Text(
-              "Back",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: ((100 / 1080) * screenHeight),
-              ),
-            ),
+            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((100 / 1080) * screenHeight))),
           ],
         ),
         BigButton(
           onButtonPressed: () {
-            widget.setPlate(_currentPlate);
+            widget.setPlate(_plateController.text);
             widget.onNavButtonPressed("duration");
           },
           isLeft: false,
@@ -83,34 +83,10 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           isCircle: false,
           color: Colors.green,
           children: [
-            Text(
-              "Next",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: ((100 / 1080) * screenHeight),
-              ),
-            ),
+            Text("Next", style: TextStyle(color: Colors.white, fontSize: ((100 / 1080) * screenHeight))),
             SizedBox(width: 8),
-            Icon(
-              Icons.arrow_forward,
-              color: Colors.white,
-              size: ((100 / 1080) * screenHeight),
-            ),
+            Icon(Icons.arrow_forward, color: Colors.white, size: ((100 / 1080) * screenHeight)),
           ],
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: Padding(
-            padding: EdgeInsets.only(top: ((80 / 1080) * screenHeight)),
-            child: PlateField(
-              plateText: _currentPlate,
-              onDelete: () => onKeyPress("del"),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: ((50 / 1080) * screenHeight)),
-          child: Keyboard(onKeyPress: onKeyPress),
         ),
       ],
     );
