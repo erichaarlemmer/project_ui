@@ -8,65 +8,78 @@ class PlateDetailsScreen extends StatelessWidget {
 
   final PlateControlResponse response;
 
-  const PlateDetailsScreen({
-    super.key,
-    required this.response,
-  });
+  const PlateDetailsScreen({super.key, required this.response});
 
   void _goBack(BuildContext context) {
     Navigator.of(context).pop();
   }
 
-  Widget _buildTicketInfo() {
-    if (response.ticketInfo == null) {
-      return const Text('No valid ticket found.');
-    }
-    final start = response.ticketInfo!.start;
-    final end = response.ticketInfo!.end;
-    return Text(
-      'Ticket valid from:\n${start.toLocal()}\nto\n${end.toLocal()}',
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _buildTimestampList(String title, List<DateTime> list) {
-    if (list.isEmpty) {
-      return Text('No $title.');
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        ...list.map((dt) => Text(dt.toLocal().toString())).toList(),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final ticket = response.ticketInfo;
+
+    final bool hasTicket = ticket != null && ticket.end.millisecondsSinceEpoch != 0;
+
+    final List<String> fines = response.lastFines
+        .take(3)
+        .map((dt) => dt.toLocal().toString())
+        .toList();
+
+    final List<String> chalks = response.lastChalks
+        .take(3)
+        .map((dt) => dt.toLocal().toString())
+        .toList();
+
     return Scaffold(
       body: Stack(
         children: [
           Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 2),
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.white,
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Parking name: ${response.parkingName}',
-                      style: TextStyle(
-                          fontSize: ((40 / 1080) * screenHeight),
-                          fontWeight: FontWeight.bold),
+                    Center(
+                      child: Text(
+                        'Ticket info',
+                        style: TextStyle(
+                          fontSize: ((50 / 1080) * screenHeight),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
-                    _buildTicketInfo(),
+                    Text(
+                      hasTicket
+                          ? 'Ticket validity from ${ticket.start.toLocal()} to ${ticket.end.toLocal()}'
+                          : 'There is no ticket for this car.',
+                      style: TextStyle(fontSize: ((40 / 1080) * screenHeight)),
+                    ),
                     const SizedBox(height: 20),
-                    _buildTimestampList('Last Fines:', response.lastFines),
+                    Text(
+                      'Last fines: ${fines.isEmpty ? 'None' : fines.join(', ')}',
+                      style: TextStyle(fontSize: ((40 / 1080) * screenHeight)),
+                    ),
                     const SizedBox(height: 20),
-                    _buildTimestampList('Last Chalks:', response.lastChalks),
+                    Text(
+                      'Last chalks: ${chalks.isEmpty ? 'None' : chalks.join(', ')}',
+                      style: TextStyle(fontSize: ((40 / 1080) * screenHeight)),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Parking name: ${response.parkingName}',
+                      style: TextStyle(fontSize: ((40 / 1080) * screenHeight)),
+                    ),
                   ],
                 ),
               ),
@@ -76,9 +89,23 @@ class PlateDetailsScreen extends StatelessWidget {
             onButtonPressed: () => _goBack(context),
             isLeft: true,
             isBottom: true,
-            isCircle: true,
+            isCircle: false,
             color: Colors.redAccent,
-            children: const [Icon(Icons.arrow_back)],
+            children: [
+              Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+                size: ((100 / 1080) * screenHeight),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                "Back",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ((100 / 1080) * screenHeight),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -86,10 +113,9 @@ class PlateDetailsScreen extends StatelessWidget {
   }
 }
 
+
 class PlateDetailsScreenArgs {
   final PlateControlResponse response;
 
-  PlateDetailsScreenArgs({
-    required this.response,
-  });
+  PlateDetailsScreenArgs({required this.response});
 }

@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text(
             'Scan Badge or login...',
             style: TextStyle(
-              fontSize: (72 / 1080) * screenHeight,
+              fontSize: (150 / 1080) * screenHeight,
               color: Colors.black,
               decoration: TextDecoration.none,
             ),
@@ -92,14 +92,14 @@ class _HomeScreenState extends State<HomeScreen> {
               "Login",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((56 / 1080) * screenHeight),
+                fontSize: ((100 / 1080) * screenHeight),
               ),
             ),
             SizedBox(width: 8),
             Icon(
               Icons.login,
               color: Colors.white,
-              size: ((56 / 1080) * screenHeight),
+              size: ((100 / 1080) * screenHeight),
             ),
           ],
         ),

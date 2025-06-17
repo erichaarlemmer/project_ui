@@ -84,13 +84,18 @@ class _ControlScreenState extends State<ControlScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Center(
-            child: Text(
-              plateInput,
-              style: TextStyle(
-                fontSize: ((150 / 1080) * screenHeight),
-                fontWeight: FontWeight.bold,
-                letterSpacing: 5,
+          Positioned(
+            top: (50 / 1080) * screenHeight,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                plateInput,
+                style: TextStyle(
+                  fontSize: ((150 / 1080) * screenHeight),
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 5,
+                ),
               ),
             ),
           ),
@@ -102,19 +107,47 @@ class _ControlScreenState extends State<ControlScreen> {
           BigButton(
             onButtonPressed: _logout,
             isLeft: true,
-            isBottom: true,
-            isCircle: true,
-            color: Colors.redAccent,
-            children: const [Icon(Icons.arrow_back)],
+            isBottom: false,
+            isCircle: false,
+            color: Colors.grey,
+            children: [
+              Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+                size: ((85 / 1080) * screenHeight),
+              ),
+              SizedBox(width: 8),
+              Text(
+                "Logout",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ((85 / 1080) * screenHeight),
+                ),
+              ),
+            ],
           ),
           // Clear Button above Back Button
           BigButton(
             onButtonPressed: _clearInput,
             isLeft: true,
-            isBottom: false,
+            isBottom: true,
             isCircle: false,
-            color: Colors.grey,
-            children: const [Text('Clear')],
+            color: Colors.red,
+            children: [
+              Text(
+                "Clear",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ((85 / 1080) * screenHeight),
+                ),
+              ),
+              SizedBox(width: 8),
+              Icon(
+                Icons.backspace,
+                color: Colors.white,
+                size: ((85 / 1080) * screenHeight),
+              ),
+            ],
           ),
           // Submit Button bottom right
           BigButton(
@@ -123,7 +156,21 @@ class _ControlScreenState extends State<ControlScreen> {
             isBottom: true,
             isCircle: false,
             color: Colors.green,
-            children: const [Text('Submit')],
+            children: [
+              Text(
+                "Control",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: ((85 / 1080) * screenHeight),
+                ),
+              ),
+              SizedBox(width: 2),
+              Icon(
+                Icons.arrow_forward,
+                color: Colors.white,
+                size: ((85 / 1080) * screenHeight),
+              ),
+            ],
           ),
         ],
       ),

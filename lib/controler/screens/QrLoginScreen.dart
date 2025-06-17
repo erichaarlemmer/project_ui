@@ -73,7 +73,7 @@ class _QrLoginScreenState extends State<QrLoginScreen> {
               Text(
                 'Scan the QR code to log in.',
                 style: TextStyle(
-                  fontSize: ((40 / 1080) * screenHeight),
+                  fontSize: ((60 / 1080) * screenHeight),
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                   decoration: TextDecoration.none,
@@ -83,7 +83,7 @@ class _QrLoginScreenState extends State<QrLoginScreen> {
               const SizedBox(height: 40),
               QrImage(
                 data: '$httpServerAddress/ctrl/login/$clientId',
-                size: screenHeight / 2,
+                size: 4*screenHeight / 5,
               ),
             ],
           ),
@@ -98,14 +98,14 @@ class _QrLoginScreenState extends State<QrLoginScreen> {
             Icon(
               Icons.arrow_back,
               color: Colors.white,
-              size: ((56 / 1080) * screenHeight),
+              size: ((100 / 1080) * screenHeight),
             ),
             SizedBox(width: ((8 / 1080) * screenHeight)),
             Text(
               "Back",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((56 / 1080) * screenHeight),
+                fontSize: ((100 / 1080) * screenHeight),
               ),
             ),
           ],

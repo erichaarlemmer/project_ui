@@ -12,10 +12,11 @@ class KeyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: ((100 / 1080) * screenHeight),
-      height: ((100 / 1080) * screenHeight),
+      width: ((180 / 1920) * screenWidth),
+      height: ((150 / 1080) * screenHeight),
       child: ElevatedButton(
         onPressed: () => {onPressed(keyLetter)},
         style: ElevatedButton.styleFrom(
@@ -23,7 +24,7 @@ class KeyButton extends StatelessWidget {
           minimumSize: Size.zero,
           padding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(((5 / 1080) * screenHeight)),
+            borderRadius: BorderRadius.circular(((10 / 1080) * screenHeight)),
             side: BorderSide(
               color: Colors.black,
               width: ((5 / 1080) * screenHeight),
@@ -33,7 +34,7 @@ class KeyButton extends StatelessWidget {
         child: Text(
           keyLetter,
           style: TextStyle(
-            fontSize: ((50 / 1080) * screenHeight),
+            fontSize: ((100 / 1080) * screenHeight),
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -50,6 +51,7 @@ class Keyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     List<List<String>> azertyFormat = [
       ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
@@ -60,29 +62,29 @@ class Keyboard extends StatelessWidget {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: azertyFormat.map((row) {
-        return Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: ((5 / 1080) * screenHeight),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: row
-                .map(
-                  (letter) => Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: ((5 / 1080) * screenHeight),
-                    ),
-                    child: KeyButton(
-                      keyLetter: letter,
-                      onPressed: onKeyPress,
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        );
-      }).toList(),
+      children:
+          azertyFormat.map((row) {
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: ((1 / 1080) * screenHeight),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:
+                    row.map((letter) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: ((1 / 1080) * screenHeight),
+                        ),
+                        child: KeyButton(
+                          keyLetter: letter,
+                          onPressed: onKeyPress,
+                        ),
+                      );
+                    }).toList(),
+              ),
+            );
+          }).toList(),
     );
   }
 }
