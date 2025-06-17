@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:project_ui/controler/screens/QrLoginScreen.dart';
 import 'package:project_ui/controler/widgets/big_button.dart';
@@ -20,31 +19,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   StreamSubscription? _wsSubscription;
-  // String _status = "Waiting for badge scan...";
   bool _isInitialized = false;
+  late WebSocketService _wsService; // ✅ Cached instance
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Only run once
     if (_isInitialized) return;
     _isInitialized = true;
 
-    final wsService = Provider.of<WebSocketService>(context, listen: false);
+    _wsService = Provider.of<WebSocketService>(context, listen: false);
 
-    _wsSubscription = wsService.messages.listen(_handleMessage);
-
-    // Future.delayed(const Duration(milliseconds: 300), () {
-    //   wsService.send({
-    //     "type": "startup",
-    //     "client_id": clientId, // Make sure `clientId` is defined globally or injected
-    //   });
-    // });
+    _wsSubscription = _wsService.messages.listen(_handleMessage);
   }
 
   void _handleMessage(Map<String, dynamic> message) {
-    final wsService = Provider.of<WebSocketService>(context, listen: false);
+    if (!mounted) return; // ✅ Avoid acting on disposed widget
 
     if (message['type'] == 'login') {
       final user = User.fromJson(message);
@@ -52,19 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
       userProvider.setUser(user);
 
       if (user.group == 'controller') {
-        Navigator.of(
-          context,
-        ).pushReplacementNamed(ControlScreen.routeName, arguments: wsService);
+        Navigator.of(context).pushNamed(
+          ControlScreen.routeName,
+          arguments: _wsService,
+        );
       } else if (user.group == 'customer_admin' ||
           user.group == 'system_admin') {
-        Navigator.of(context).pushReplacementNamed(
+        Navigator.of(context).pushNamed(
           AdminPlaceholderScreen.routeName,
-          arguments: wsService,
+          arguments: _wsService,
         );
-      } else {
-        // setState(() {
-        //   _status = "Unknown user group: ${user.group}";
-        // });
       }
     }
   }
@@ -72,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _wsSubscription?.cancel();
-    super.dispose(); // Don't dispose wsService if using Provider — app-wide
+    super.dispose();
   }
 
   @override
@@ -91,16 +79,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        // Center(
-        //   child: Text(
-        //     _status,
-        //     style: const TextStyle(fontSize: 24),
-        //     textAlign: TextAlign.center,
-        //   ),
-        // ),
         BigButton(
-          onButtonPressed:
-              () => {Navigator.of(context).pushNamed(QrLoginScreen.routeName)},
+          onButtonPressed: () {
+            Navigator.of(context).pushNamed(QrLoginScreen.routeName);
+          },
           isLeft: true,
           isBottom: false,
           isCircle: false,

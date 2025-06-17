@@ -34,8 +34,8 @@ class TicketInfo {
 
   factory TicketInfo.fromJson(Map<String, dynamic> json) {
     return TicketInfo(
-      start: DateTime.fromMillisecondsSinceEpoch(json['start'] * 1000),
-      end: DateTime.fromMillisecondsSinceEpoch(json['end'] * 1000),
+      start: DateTime.fromMillisecondsSinceEpoch(json['start_time'] * 1000),
+      end: DateTime.fromMillisecondsSinceEpoch(json['stop_time'] * 1000),
     );
   }
 }
