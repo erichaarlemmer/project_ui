@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_ui/web/widgets/big_button.dart';
-import 'package:project_ui/web/widgets/wireless_payment.dart';
 
 class HomePage extends StatelessWidget {
   final Function(String) onButtonPressed;
@@ -92,7 +91,11 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        WirelessPayment(
+        BigButton(
+          onButtonPressed: () {},
+          isLeft: false,
+          isBottom: true,
+          isCircle: false,
           color: Colors.green,
           children: [
             Text(
@@ -108,23 +111,48 @@ class HomePage extends StatelessWidget {
               color: Colors.white,
               size: ((200 / 1080) * screenHeight),
             ),
-            Icon(
-              Icons.contactless_outlined,
-              color: Colors.white,
-              size: ((200 / 1080) * screenHeight),
-            ),
           ],
         ),
 
         loginLogoutBtn,
 
         Center(
-          child: Text(
-            "Welcome $currentUsername",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: ((182 / 1080) * screenHeight),
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Welcome $currentUsername",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: ((182 / 1080) * screenHeight),
+                ),
+              ),
+              SizedBox(height: (40 / 1080) * screenHeight),
+              Container(
+                width: 400,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black26),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 6,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Enter card number',
+                    icon: Icon(Icons.credit_card),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

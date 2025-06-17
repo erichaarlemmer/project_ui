@@ -28,7 +28,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
   late Timer _timer;
 
   String _clientId = "";
-  List<String> _allParkingNames = ["Waiting for Results"];
+  List<String> _allParkingNames = [];
   String _currentPageKey = "home";
 
   String _parkingName = "";
@@ -68,7 +68,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
 
   void _getParkingData() {
     final payload = jsonEncode({
-      "type": "getParkingInfos",
+      "type": "get_parking_infos",
       "parking_name": _parkingName,
     });
     channel.sink.add(payload);
@@ -145,10 +145,6 @@ class _SkeletonPageState extends State<SkeletonPage> {
         setState(() {
           _userPlates = List<String>.from(decoded["plates"]);
         });
-      } else if (decoded["type"] == "start") {
-        if (_currentPageKey == "home") {
-          setPage("plate");
-        }
       } else if (decoded["type"] == "get_car_parcking_status") {
         setState(() {
           _parkingDurationLeft = decoded["time_left"];
@@ -307,39 +303,52 @@ class _SkeletonPageState extends State<SkeletonPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(right: ((40 / 1920) * screenWidth)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: _parkingName.isNotEmpty ? _parkingName : null,
-                      hint: Text(
-                        "Select Parking",
-                        style: TextStyle(fontSize: (60 / 1080) * screenHeight),
-                      ),
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        size: (60 / 1080) * screenHeight,
-                      ),
-                      items:
-                          _allParkingNames.map((String name) {
-                            return DropdownMenuItem<String>(
-                              value: name,
-                              child: Text(
-                                name,
+                  child:
+                      _currentPageKey == "home"
+                          ? DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value:
+                                  _parkingName.isNotEmpty ? _parkingName : null,
+                              hint: Text(
+                                "Select Parking",
                                 style: TextStyle(
                                   fontSize: (60 / 1080) * screenHeight,
                                 ),
                               ),
-                            );
-                          }).toList(),
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            _parkingName = newValue;
-                          });
-                          _getParkingData();
-                        }
-                      },
-                    ),
-                  ),
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                size: (60 / 1080) * screenHeight,
+                              ),
+                              items:
+                                  _allParkingNames.map((String name) {
+                                    return DropdownMenuItem<String>(
+                                      value: name,
+                                      child: Text(
+                                        name,
+                                        style: TextStyle(
+                                          fontSize: (60 / 1080) * screenHeight,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                              onChanged: (String? newValue) {
+                                if (newValue != null) {
+                                  setState(() {
+                                    _parkingName = newValue;
+                                  });
+                                  _getParkingData();
+                                }
+                              },
+                            ),
+                          )
+                          : Text(
+                            _parkingName.isNotEmpty
+                                ? _parkingName
+                                : "Loading...",
+                            style: TextStyle(
+                              fontSize: (60 / 1080) * screenHeight,
+                            ),
+                          ),
                 ),
               ],
             ),
