@@ -62,14 +62,14 @@ class HelpPage extends StatelessWidget {
             Icon(
               Icons.arrow_back,
               color: Colors.white,
-              size: ((100 / 1080) * screenHeight),
+              size: ((60 / 1080) * screenHeight),
             ),
             SizedBox(width: ((16 / 1920) * screenWidth)),
             Text(
               "Back",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((100 / 1080) * screenHeight),
+                fontSize: ((60 / 1080) * screenHeight),
               ),
             ),
           ],

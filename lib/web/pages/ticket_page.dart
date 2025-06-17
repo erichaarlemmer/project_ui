@@ -144,7 +144,7 @@ class TicketPage extends StatelessWidget {
               "Home",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ((100 / 1080) * screenHeight),
+                fontSize: ((60 / 1080) * screenHeight),
               ),
             ),
             SizedBox(width: ((16 / 1920) * screenWidth)),

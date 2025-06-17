@@ -53,11 +53,11 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
             child: TextField(
               controller: _plateController,
               decoration: InputDecoration(
-                hintText: "Enter your license plate",
+                hintText: "Enter your plate",
                 border: InputBorder.none,
                 icon: Icon(Icons.directions_car),
               ),
-              style: TextStyle(fontSize: ((80 / 1080) * screenHeight)),
+              style: TextStyle(fontSize: ((40 / 1080) * screenHeight)),
             ),
           ),
         ),
@@ -68,9 +68,9 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(Icons.arrow_back, color: Colors.white, size: ((100 / 1080) * screenHeight)),
+            Icon(Icons.arrow_back, color: Colors.white, size: ((60 / 1080) * screenHeight)),
             SizedBox(width: 8),
-            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((100 / 1080) * screenHeight))),
+            Text("Back", style: TextStyle(color: Colors.white, fontSize: ((60 / 1080) * screenHeight))),
           ],
         ),
         BigButton(
@@ -83,9 +83,9 @@ class _EnterPlatePageState extends State<EnterPlatePage> {
           isCircle: false,
           color: Colors.green,
           children: [
-            Text("Next", style: TextStyle(color: Colors.white, fontSize: ((100 / 1080) * screenHeight))),
+            Text("Next", style: TextStyle(color: Colors.white, fontSize: ((60 / 1080) * screenHeight))),
             SizedBox(width: 8),
-            Icon(Icons.arrow_forward, color: Colors.white, size: ((100 / 1080) * screenHeight)),
+            Icon(Icons.arrow_forward, color: Colors.white, size: ((60 / 1080) * screenHeight)),
           ],
         ),
       ],

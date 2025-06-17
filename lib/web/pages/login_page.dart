@@ -39,11 +39,11 @@ class LoginPage extends StatelessWidget {
           isCircle: false,
           color: Colors.red,
           children: [
-            Icon(Icons.arrow_back, color: Colors.white, size: ((100 / 1080) * screenHeight)),
+            Icon(Icons.arrow_back, color: Colors.white, size: ((60 / 1080) * screenHeight)),
             const SizedBox(width: 16),
             Text(
               "Back",
-              style: TextStyle(color: Colors.white, fontSize: ((100 / 1080) * screenHeight)),
+              style: TextStyle(color: Colors.white, fontSize: ((60 / 1080) * screenHeight)),
             ),
           ],
         ),
@@ -54,7 +54,7 @@ class LoginPage extends StatelessWidget {
               Text(
                 'Click below to log in:',
                 style: TextStyle(
-                  fontSize: ((84 / 1080) * screenHeight),
+                  fontSize: ((65 / 1080) * screenHeight),
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

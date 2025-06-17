@@ -295,7 +295,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight((120 / 1080) * screenHeight),
+        preferredSize: Size.fromHeight((60 / 1080) * screenHeight),
         child: AppBar(
           backgroundColor: Color(0xFFB0B0B0),
           flexibleSpace: Padding(
@@ -309,14 +309,14 @@ class _SkeletonPageState extends State<SkeletonPage> {
                   padding: EdgeInsets.only(left: ((40 / 1920) * screenWidth)),
                   child: Text(
                     _formattedDate,
-                    style: TextStyle(fontSize: (60 / 1080) * screenHeight),
+                    style: TextStyle(fontSize: (40 / 1080) * screenHeight),
                   ),
                 ),
                 Expanded(
                   child: Center(
                     child: Text(
                       _formattedTime,
-                      style: TextStyle(fontSize: (60 / 1080) * screenHeight),
+                      style: TextStyle(fontSize: (40 / 1080) * screenHeight),
                     ),
                   ),
                 ),
@@ -331,12 +331,12 @@ class _SkeletonPageState extends State<SkeletonPage> {
                               hint: Text(
                                 "Select Parking",
                                 style: TextStyle(
-                                  fontSize: (60 / 1080) * screenHeight,
+                                  fontSize: (40 / 1080) * screenHeight,
                                 ),
                               ),
                               icon: Icon(
                                 Icons.arrow_drop_down,
-                                size: (60 / 1080) * screenHeight,
+                                size: (40 / 1080) * screenHeight,
                               ),
                               items:
                                   _allParkingNames.map((String name) {
@@ -345,7 +345,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
                                       child: Text(
                                         name,
                                         style: TextStyle(
-                                          fontSize: (60 / 1080) * screenHeight,
+                                          fontSize: (40 / 1080) * screenHeight,
                                         ),
                                       ),
                                     );
@@ -365,7 +365,7 @@ class _SkeletonPageState extends State<SkeletonPage> {
                                 ? _parkingName
                                 : "Loading...",
                             style: TextStyle(
-                              fontSize: (60 / 1080) * screenHeight,
+                              fontSize: (40 / 1080) * screenHeight,
                             ),
                           ),
                 ),
