@@ -1,6 +1,4 @@
 const String ipAddr = "localhost";
-// const String ipAddr = "192.168.206.80";
-// const String ipAddr = "192.168.191.80"; // prod
 
 const String port = "8000";
 
