@@ -57,6 +57,11 @@ class _DurationSliderState extends State<DurationSlider> {
   }
 
   int _mapMinutesToCents(int duration) {
+
+    if (widget.durationIntervals.last == duration){
+      return widget.priceIntervals.last;
+    }
+
     int index = findIntervalIndex(widget.durationIntervals, duration);
 
     bool isLastInterval = index == widget.priceIntervals.length - 1;

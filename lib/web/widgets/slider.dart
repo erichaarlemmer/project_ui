@@ -57,6 +57,10 @@ class _DurationSliderState extends State<DurationSlider> {
   }
 
   int _mapMinutesToCents(int duration) {
+    if (widget.durationIntervals.last == duration) {
+      return widget.priceIntervals.last;
+    }
+
     int index = findIntervalIndex(widget.durationIntervals, duration);
 
     bool isLastInterval = index == widget.priceIntervals.length - 1;
@@ -102,7 +106,7 @@ class _DurationSliderState extends State<DurationSlider> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width * 5/6,
+          width: MediaQuery.of(context).size.width * 5 / 6,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
