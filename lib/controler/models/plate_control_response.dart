@@ -1,10 +1,12 @@
 class PlateControlResponse {
   final String parkingName;
+  final String plate;
   final TicketInfo? ticketInfo;
   final List<DateTime> lastFines;
   final List<DateTime> lastChalks;
 
   PlateControlResponse({
+    required this.plate,
     required this.parkingName,
     this.ticketInfo,
     required this.lastFines,
@@ -15,6 +17,7 @@ class PlateControlResponse {
     final ticketJson = json['ticket'];
     return PlateControlResponse(
       parkingName: json['parking_name'],
+      plate: json['plate'],
       ticketInfo: ticketJson != null ? TicketInfo.fromJson(ticketJson) : null,
       lastFines: (json['last_fines'] as List<dynamic>? ?? [])
           .map((e) => DateTime.fromMillisecondsSinceEpoch(e * 1000))
