@@ -1,4 +1,4 @@
-const String ipAddr = "localhost";
+const String ipAddr = String.fromEnvironment('IP_ADDRESS', defaultValue: 'localhost');
 
 const String port = "8000";
 
